@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package engineermypath;
 
-/**
- *
- * @author João
- */
+import java.util.*;
+
 public class EngineerMyPath {
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
+        double[][] map = { { 0, 1, 2 }, { 3, 3, 2 }, { 0, -1, 0 } };
+        Grelha mapa = new Grelha(map, false);      
+        System.out.println(mapa.findPath(0, 0, 2, 2));
+        
         System.out.println("Teste");
     }
     
