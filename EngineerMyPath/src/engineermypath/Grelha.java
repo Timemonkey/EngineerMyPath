@@ -8,55 +8,45 @@ import java.util.*;
  */
 public class Grelha {
 
-    private final double[][] map;
-    private final boolean allowDiagonal;
+    private final double[][] mapa;
 
-    public class MapNode implements Nodo<MapNode> {
+    public class CelulaMapa implements Nodo {
 
         private final int x, y;
 
-        public MapNode(int x, int y) {
+        public CelulaMapa(int x, int y) {
             this.x = x;
             this.y = y;
         }
 
-        public double getHeuristic(MapNode goal) {
-            if (allowDiagonal) {
-                return Math.max(Math.abs(x - goal.x), Math.abs(y - goal.y));
-            } else {
-                return Math.abs(x - goal.x) + Math.abs(y - goal.y);
-            }
+        public double getHeuristica(CelulaMapa localizacaoFinal) {
+            return Math.abs(x - localizacaoFinal.x) + Math.abs(y - localizacaoFinal.y);
         }
 
-        public double getTraversalCost(MapNode neighbour) {
-            return 1 + map[neighbour.y][neighbour.x];
+        public double getTraversalCost(CelulaMapa localizacaoVizinhanca) {
+            return 1 + mapa[localizacaoVizinhanca.y][localizacaoVizinhanca.x];
         }
 
-        public Set<MapNode> getNeighbours() {
-            Set<MapNode> neighbours = new HashSet<MapNode>();
+        public Set<CelulaMapa> getVizinhos() {
+            Set<CelulaMapa> vizinhos = new HashSet<CelulaMapa>();
 
             for (int i = x - 1; i <= x + 1; i++) {
                 for (int j = y - 1; j <= y + 1; j++) {
-                    if ((i == x && j == y) || i < 0 || j < 0 || j >= map.length
-                            || i >= map[j].length) {
+                    if ((i == x && j == y) || i < 0 || j < 0 || j >= mapa.length
+                            || i >= mapa[j].length) {
                         continue;
                     }
 
-                    if (!allowDiagonal
-                            && ((i < x && j < y) || (i > x && j > y))) {
-                        continue;
-                    }
-
-                    if (map[j][i] < 0) {
+                    if (mapa[j][i] < 0) {
                         continue;
                     }
 
                     // TODO: create cache instead of recreation
-                    neighbours.add(new MapNode(i, j));
+                    vizinhos.add(new CelulaMapa(i, j));
                 }
             }
 
-            return neighbours;
+            return vizinhos;
         }
 
         @Override
@@ -66,12 +56,12 @@ public class Grelha {
 
         @Override
         public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result + x;
-            result = prime * result + y;
-            return result;
+            final int numPrimo = 31;
+            int resultado = 1;
+            resultado = numPrimo * resultado + getOuterType().hashCode();
+            resultado = numPrimo * resultado + x;
+            resultado = numPrimo * resultado + y;
+            return resultado;
         }
 
         @Override
@@ -85,7 +75,7 @@ public class Grelha {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            MapNode other = (MapNode) obj;
+            CelulaMapa other = (CelulaMapa) obj;
             if (!getOuterType().equals(other.getOuterType())) {
                 return false;
             }
@@ -104,13 +94,12 @@ public class Grelha {
 
     }
 
-    public Grelha(double[][] map, boolean allowDiagonal) {
-        this.map = map;
-        this.allowDiagonal = allowDiagonal;
+    public Grelha(double[][] mapa) {
+        this.mapa = mapa;
     }
 
-    public List<MapNode> findPath(int xStart, int yStart, int xGoal, int yGoal) {
-        return new PathFinding().doAStar(new MapNode(xStart, yStart), new MapNode(
-                xGoal, yGoal));
+    public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
+        return new PathFinding().doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
+                xFinal, yFinal));
     }
 }
