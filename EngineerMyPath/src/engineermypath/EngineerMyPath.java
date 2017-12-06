@@ -10,7 +10,7 @@ public class EngineerMyPath {
         Grelha mapa = new Grelha(map, false);      
         System.out.println(mapa.findPath(0, 0, 2, 2));
         
-        System.out.println("Teste");
+        System.out.println("Sò para Teste");
     }
     
 }
