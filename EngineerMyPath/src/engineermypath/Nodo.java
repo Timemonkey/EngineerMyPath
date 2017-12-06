@@ -1,5 +1,6 @@
 package engineermypath;
 
+import engineermypath.Grelha.*;
 import java.util.*;
 
 /**
@@ -10,7 +11,7 @@ import java.util.*;
  * @param <T>
  *            Actual type of the node
  */
-public interface Nodo<T> {
+public interface Nodo {
 	/**
 	 * The heuristic cost to move from the current node to the goal. In most
 	 * cases this is the Manhattan distance or Chebyshev distance.
@@ -18,7 +19,7 @@ public interface Nodo<T> {
 	 * @param goal
 	 * @return
 	 */
-	double getHeuristic(T goal);
+	double getHeuristica(CelulaMapa goal);
 
 	/**
 	 * The cost of moving from the current node to the neighbour. In most cases
@@ -30,12 +31,12 @@ public interface Nodo<T> {
 	 *            Neighbour of current node
 	 * @return Traversal cost
 	 */
-	double getTraversalCost(T neighbour);
+	double getTraversalCost(CelulaMapa neighbour);
 
 	/**
 	 * Gets the set of neighbouring nodes.
 	 * 
 	 * @return Neighbouring nodes
 	 */
-	Set<T> getNeighbours();
+	Set<CelulaMapa> getVizinhos();
 }
