@@ -5,14 +5,6 @@ import java.util.*;
 
 public class PathFinding {
 
-    /**
-     * A Star pathfinding. Note that the heuristic has to be monotonic:      {@code h(x) <=
-	 * d(x, y) + h(y)}.
-     *
-     * @param locOrigem Starting node
-     * @param locDestino Goal node
-     * @return Shortest path from start to goal, or null if none found
-     */
     public static List<CelulaMapa> doAStar(CelulaMapa locOrigem, CelulaMapa locDestino) {
         Set<CelulaMapa> closed = new HashSet<CelulaMapa>();
         Map<CelulaMapa, CelulaMapa> fromMap = new HashMap<CelulaMapa, CelulaMapa>();
