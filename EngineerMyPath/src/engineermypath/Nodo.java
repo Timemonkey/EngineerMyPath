@@ -1,3 +1,11 @@
+/* Interface Nodo
+ *
+ * João Gonçalves
+ *
+ * 08/12/17
+ *
+ * Interface que representa uma célula no mapa
+ */
 package engineermypath;
 
 import engineermypath.Grelha.*;
