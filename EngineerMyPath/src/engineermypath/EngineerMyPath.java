@@ -8,6 +8,8 @@
 
 package engineermypath;
 
+import model.Grelha;
+
 public class EngineerMyPath {
 
     
