@@ -1,6 +1,12 @@
-package engineermypath;
+/* Main
+ *
+ * João Gonçalves
+ *
+ * 08/12/17
+ *
+ */
 
-import java.util.*;
+package engineermypath;
 
 public class EngineerMyPath {
 

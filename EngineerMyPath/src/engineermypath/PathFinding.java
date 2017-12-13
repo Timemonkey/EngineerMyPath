@@ -1,3 +1,11 @@
+/* PathFinding
+ *
+ * João Gonçalves, João Ferreira
+ *
+ * 12/12/17
+ *
+ * Classe que implementa o algoritmo A* 
+ */
 package engineermypath;
 
 import engineermypath.Grelha.*;
@@ -6,13 +14,13 @@ import java.util.*;
 public class PathFinding {
 
     public static List<CelulaMapa> doAStar(CelulaMapa locOrigem, CelulaMapa locDestino) {
-        Set<CelulaMapa> closed = new HashSet<CelulaMapa>();
-        Map<CelulaMapa, CelulaMapa> fromMap = new HashMap<CelulaMapa, CelulaMapa>();
-        List<CelulaMapa> itinerario = new LinkedList<CelulaMapa>();
-        Map<CelulaMapa, Double> gScore = new HashMap<CelulaMapa, Double>();
-        final Map<CelulaMapa, Double> fScore = new HashMap<CelulaMapa, Double>();
-        PriorityQueue<CelulaMapa> open = new PriorityQueue<CelulaMapa>(11, new Comparator<CelulaMapa>() {
-
+        Set<CelulaMapa> closed = new HashSet<>();
+        Map<CelulaMapa, CelulaMapa> fromMap = new HashMap<>();
+        List<CelulaMapa> itinerario = new LinkedList<>();
+        Map<CelulaMapa, Double> gScore = new HashMap<>();
+        final Map<CelulaMapa, Double> fScore = new HashMap<>();
+        PriorityQueue<CelulaMapa> open = new PriorityQueue<>(11, new Comparator<CelulaMapa>() {
+            @Override
             public int compare(CelulaMapa celulaA, CelulaMapa celulaB) {
                 return Double.compare(fScore.get(celulaA), fScore.get(celulaB));
             }
@@ -36,9 +44,8 @@ public class PathFinding {
             closed.add(atual);
 
             for (CelulaMapa vizinho : atual.getVizinhos()) {
-                if (closed.contains(vizinho)) {
+                if (closed.contains(vizinho))
                     continue;
-                }
 
                 double tentG = gScore.get(atual)
                         + atual.getTraversalCost(vizinho);
@@ -48,9 +55,8 @@ public class PathFinding {
                     gScore.put(vizinho, tentG);
                     fScore.put(vizinho, tentG + vizinho.getHeuristica(locDestino));
 
-                    if (contains) {
+                    if (contains)
                         open.remove(vizinho);
-                    }
 
                     open.offer(vizinho);
                     fromMap.put(vizinho, atual);
