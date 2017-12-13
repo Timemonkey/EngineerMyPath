@@ -6,9 +6,9 @@
  *
  * Classe que implementa o algoritmo A* 
  */
-package engineermypath;
+package model;
 
-import engineermypath.Grelha.*;
+import model.Grelha.*;
 import java.util.*;
 
 public class PathFinding {
