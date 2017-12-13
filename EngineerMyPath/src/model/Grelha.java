@@ -6,7 +6,7 @@
  *
  * Representa o mapa de uma planta, contém também a implementação da classe CelulaMapa que representa uma célula na grelha
  */
-package engineermypath;
+package model;
 
 import java.util.*;
 
@@ -57,6 +57,14 @@ public class Grelha {
             }
 
             return vizinhos;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
         }
 
         @Override
