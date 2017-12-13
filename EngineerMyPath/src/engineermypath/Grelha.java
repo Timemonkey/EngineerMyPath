@@ -1,14 +1,22 @@
+/* Grelha/CelulaMapa
+ *
+ * João Gonçalves, João Ferreira
+ *
+ * 12/12/17
+ *
+ * Representa o mapa de uma planta, contém também a implementação da classe CelulaMapa que representa uma célula na grelha
+ */
 package engineermypath;
 
 import java.util.*;
 
-/**
- *
- * @author João
- */
 public class Grelha {
 
     private final double[][] mapa;
+    
+    public Grelha(double[][] mapa) {
+        this.mapa = mapa;
+    }
 
     public class CelulaMapa implements Nodo {
 
@@ -19,16 +27,19 @@ public class Grelha {
             this.y = y;
         }
 
+        @Override
         public double getHeuristica(CelulaMapa localizacaoFinal) {
             return Math.abs(x - localizacaoFinal.x) + Math.abs(y - localizacaoFinal.y);
         }
 
+        @Override
         public double getTraversalCost(CelulaMapa localizacaoVizinhanca) {
             return 1 + mapa[localizacaoVizinhanca.y][localizacaoVizinhanca.x];
         }
 
+        @Override
         public Set<CelulaMapa> getVizinhos() {
-            Set<CelulaMapa> vizinhos = new HashSet<CelulaMapa>();
+            Set<CelulaMapa> vizinhos = new HashSet<>();
 
             for (int i = x - 1; i <= x + 1; i++) {
                 for (int j = y - 1; j <= y + 1; j++) {
@@ -37,9 +48,8 @@ public class Grelha {
                         continue;
                     }
 
-                    if (mapa[j][i] < 0) {
+                    if (mapa[j][i] < 0)
                         continue;
-                    }
 
                     // TODO: create cache instead of recreation
                     vizinhos.add(new CelulaMapa(i, j));
@@ -66,25 +76,21 @@ public class Grelha {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) {
+            if (this == obj)
                 return true;
-            }
-            if (obj == null) {
+            else if (obj == null)
                 return false;
-            }
-            if (getClass() != obj.getClass()) {
+            else if (getClass() != obj.getClass())
                 return false;
-            }
+            
             CelulaMapa other = (CelulaMapa) obj;
-            if (!getOuterType().equals(other.getOuterType())) {
+            if (!getOuterType().equals(other.getOuterType()))
                 return false;
-            }
-            if (x != other.x) {
+            else if (x != other.x)
                 return false;
-            }
-            if (y != other.y) {
+            else if (y != other.y)
                 return false;
-            }
+            
             return true;
         }
 
@@ -93,11 +99,7 @@ public class Grelha {
         }
 
     }
-
-    public Grelha(double[][] mapa) {
-        this.mapa = mapa;
-    }
-
+    
     public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
         return new PathFinding().doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
                 xFinal, yFinal));
