@@ -13,9 +13,8 @@ import java.util.*;
  */
 public class Campus extends Planta {
 
-    public Campus(String nome, Grelha mapa, String path_imagem) {
+    public Campus(String nome,String path_imagem) {
         super(nome);
-        this.setMapa(mapa);
         this.setPathImagem(path_imagem);
     }
     

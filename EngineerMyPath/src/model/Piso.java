@@ -11,11 +11,8 @@ package model;
  */
 public class Piso extends Planta {
     
-    public Piso(String nome, double px, double py, Grelha mapa, String path_imagem) {
+    public Piso(String nome) {
         super(nome);
-        this.setPontoAcesso(px, py);
-        this.setMapa(mapa);
-        this.setPathImagem(path_imagem);
     }
     
 }
