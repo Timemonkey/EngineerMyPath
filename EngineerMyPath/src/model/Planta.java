@@ -12,15 +12,24 @@ public abstract class Planta {
     private String nome;
     private Grelha mapa;
     private Map<String, Planta> childMaps;
-    private double PontoAcesso[];
+    private double[] PontoAcesso;
     private String pathImagem;
+    private Planta parent;
     
     
     public Planta(String nome){
         this.nome = nome;
-        childMaps = new HashMap<String, Planta>();
+        childMaps = new HashMap<>();
     }
-
+    
+    public Planta getParent(){
+        return parent;
+    }
+    
+    public void setParent(Planta parent){
+        this.parent = parent;
+    }
+    
     public String getNome() {
         return nome;
     }

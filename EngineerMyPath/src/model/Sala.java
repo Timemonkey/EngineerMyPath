@@ -8,9 +8,10 @@ package model;
 
 public class Sala extends Planta{
     
-    public Sala(String nome, double px, double py) {
+    public Sala(Planta parent,String nome, double px, double py) {
         super(nome);
         setPontoAcesso(px, py);
+        setParent(parent);
     }
     
 }
