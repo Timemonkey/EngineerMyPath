@@ -1,7 +1,7 @@
 ﻿CAMPUS
 EDIFICIOS
 Fundição	4	109
-Laboratórios Departamento de Engenharia Mecânica	12	68
+LDEM	12	68
 Departamento de Engenharia Mecânica/Edifício de Eletromecânica	13	44
 Departamento de Engenharia Eletrotécnica	14	28
 Departamento de Física e Matemática/Edifício Gerais - Traseiras	17	75

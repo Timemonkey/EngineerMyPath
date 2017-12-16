@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Modelo
+ *
+ * João Gonçalves
+ *
+ * 14/12/17
  */
 package model;
 
@@ -85,7 +86,6 @@ public class Modelo extends Observable implements Pesquisa {
             sc.close();
         } catch (Exception e) {
             System.out.println("Não foi possível localizar o ficheiro");
-            return;
         }
 
     }
@@ -117,16 +117,16 @@ public class Modelo extends Observable implements Pesquisa {
             sc = new Scanner(new File("src/" + ficheiro));
 
             str = sc.nextLine();
-            sc.nextLine();
-
             Edificio ed = (Edificio) plantaGeral.getChild(str);
+            
+            str = sc.nextLine();
+            ed.setNPisos(Integer.parseInt(str));
 
             //Não está acabada, falta pôr as imagens
             while (sc.hasNextLine()) {
                 str = sc.nextLine();
                 Piso p = new Piso(str);
                 ed.addChild(str, p);
-
                 while ((str = sc.nextLine()).compareTo("MAPA") != 0) {
                     strArr = str.split("\t");
                     px = Integer.parseInt(strArr[1]);
@@ -153,6 +153,16 @@ public class Modelo extends Observable implements Pesquisa {
             return;
         }
     }
+    
+    private Sala findSalaInEdificio(Edificio ed, String nomeSala){
+        Piso p;
+        for (int i = 0; i < ed.getNPisos(); i++){
+            p = (Piso) ed.getChild("P" + i);
+            if (p.hasChild(nomeSala))
+                return (Sala) p.getChild(nomeSala);
+        }
+        return null;
+    }
 
     @Override
     public List<CelulaMapa> getProximoPercurso() {
@@ -161,11 +171,29 @@ public class Modelo extends Observable implements Pesquisa {
 
     @Override
     public List<CelulaMapa> pesquisaPerc(String loc1, String loc2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<double[]> PontosItinerario = new LinkedList<>();
+        String loc = loc1 + "," + loc2;
+        String [] strArr = loc.split(",");
+        Edificio ed1 = (Edificio) plantaGeral.getChild(strArr[1]);
+        Edificio ed2 = (Edificio) plantaGeral.getChild(strArr[3]);
+        Sala origem = findSalaInEdificio(ed1,strArr[0]);
+        Sala destino = findSalaInEdificio(ed2,strArr[2]);
+        if (origem == null || destino == null)
+            return null;
+        //PREENCHER LISTA LIGADA COM TODOS OS PONTOS NECESSARIOS PARA CALCULAR O PRECURSO
+        //CALCULAR OS VARIOS PRECURSOS
+        return null;
     }
 
     @Override
     public Planta pesquisaMapa(String loc) {
+        String [] strArr = loc.split(",");
+        Edificio ed = (Edificio) plantaGeral.getChild(strArr[1]);
+        return findSalaInEdificio(ed,strArr[0]);
+    }
+
+    @Override
+    public List<CelulaMapa> getPercursoAnterior() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
