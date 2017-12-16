@@ -172,16 +172,12 @@ public class Modelo extends Observable implements Pesquisa {
     @Override
     public List<CelulaMapa> pesquisaPerc(String loc1, String loc2) {
         List<double[]> PontosItinerario = new LinkedList<>();
-        String loc = loc1 + "," + loc2;
-        String [] strArr = loc.split(",");
-        Edificio ed1 = (Edificio) plantaGeral.getChild(strArr[1]);
-        Edificio ed2 = (Edificio) plantaGeral.getChild(strArr[3]);
-        Sala origem = findSalaInEdificio(ed1,strArr[0]);
-        Sala destino = findSalaInEdificio(ed2,strArr[2]);
+        Sala origem = (Sala) pesquisaMapa(loc1);
+        Sala destino = (Sala) pesquisaMapa (loc2);
         if (origem == null || destino == null)
             return null;
-        //PREENCHER LISTA LIGADA COM TODOS OS PONTOS NECESSARIOS PARA CALCULAR O PRECURSO
-        //CALCULAR OS VARIOS PRECURSOS
+        //PREENCHER LISTA LIGADA COM TODOS OS PONTOS NECESSARIOS PARA CALCULAR O PERCURSO
+        //CALCULAR OS VARIOS PERCURSOS
         return null;
     }
 
