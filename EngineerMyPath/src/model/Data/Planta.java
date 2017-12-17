@@ -4,7 +4,7 @@
  *
  * 14/12/17
  */
-package model;
+package model.Data;
 
 import java.util.*;
 

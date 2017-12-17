@@ -6,7 +6,7 @@
  *
  * Representa o mapa de uma planta, contém também a implementação da classe CelulaMapa que representa uma célula na grelha
  */
-package model;
+package model.Data;
 
 import java.util.*;
 

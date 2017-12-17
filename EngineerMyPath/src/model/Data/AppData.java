@@ -4,7 +4,7 @@
  *
  * 14/12/17
  */
-package model;
+package model.Data;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.Observable;
 import java.util.*;
 
-import model.Grelha.CelulaMapa;
+import model.Data.Grelha.CelulaMapa;
 
-public class Modelo extends Observable implements Pesquisa {
+public class AppData extends Observable implements Pesquisa {
 
     private Planta plantaGeral;
     private List<List<CelulaMapa>> listaPerc;
     private int numPercursos=0;
     private List<Planta> plantasPerc;
 
-    public Modelo() {
+    public AppData() {
         leFicheiroCampus();
         leFicheiro("src/Deis.txt");
         listaPerc = new ArrayList<List<CelulaMapa>>();

@@ -4,10 +4,10 @@
  *
  * 14/12/17
  */
-package model;
+package model.Data;
 
 import java.util.List;
-import model.Grelha.CelulaMapa;
+import model.Data.Grelha.CelulaMapa;
 
 public interface Pesquisa {
     

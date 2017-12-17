@@ -8,7 +8,7 @@
 
 package engineermypath;
 
-import model.Grelha;
+import model.Data.Grelha;
 
 public class EngineerMyPath {
 
