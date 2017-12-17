@@ -4,7 +4,7 @@
  *
  * 14/12/17
  */
-package model;
+package model.Data;
 
 public class Edificio extends Planta{
     private int nPisos;
