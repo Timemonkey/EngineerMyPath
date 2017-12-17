@@ -1,29 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Planta
+ *
+ * João Gonçalves
+ *
+ * 14/12/17
  */
 package model;
 
 import java.util.*;
 
-/**
- *
- * @author João
- */
 public abstract class Planta {
     private String nome;
     private Grelha mapa;
     private Map<String, Planta> childMaps;
-    private double PontoAcesso[];
+    private double[] PontoAcesso;
     private String pathImagem;
+    private Planta parent;
     
     
     public Planta(String nome){
         this.nome = nome;
-        childMaps = new HashMap<String, Planta>();
+        childMaps = new HashMap<>();
     }
-
+    
+    public Planta getParent(){
+        return parent;
+    }
+    
+    public void setParent(Planta parent){
+        this.parent = parent;
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -34,6 +40,10 @@ public abstract class Planta {
     
     public Planta getChild(String key){
         return childMaps.get(key);
+    }
+    
+    public boolean hasChild(String key){
+        return childMaps.containsKey(key);
     }
     
     public boolean hasChilds(){
@@ -69,7 +79,7 @@ public abstract class Planta {
         return this.PontoAcesso[0];
     }
     
-    public double setPontoAcessoY(){
+    public double getPontoAcessoY(){
         return this.PontoAcesso[1];
     }
     
