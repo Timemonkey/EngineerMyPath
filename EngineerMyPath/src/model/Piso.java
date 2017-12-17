@@ -1,18 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Piso
+ *
+ * João Gonçalves
+ *
+ * 14/12/17
  */
 package model;
 
-/**
- *
- * @author João
- */
 public class Piso extends Planta {
     
-    public Piso(String nome) {
+    public Piso(Planta parent,String nome) {
         super(nome);
+        setParent(parent);
+    }
+    
+    public int getFloorNumber(){
+        String strArr[] = getNome().split(" ");
+        return Integer.parseInt(strArr[1]);
     }
     
 }

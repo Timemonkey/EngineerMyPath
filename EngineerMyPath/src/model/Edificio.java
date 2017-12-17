@@ -1,19 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Edificio
+ *
+ * João Gonçalves
+ *
+ * 14/12/17
  */
 package model;
 
-/**
- *
- * @author João
- */
 public class Edificio extends Planta{
-    
+    private int nPisos;
     public Edificio(String nome, double px, double py) {
         super(nome);
         setPontoAcesso(px, py);
+    }
+    
+    public void setNPisos(int nPisos){
+        this.nPisos = nPisos;
+    }
+    
+    public int getNPisos(){
+        return nPisos;
     }
     
 }
