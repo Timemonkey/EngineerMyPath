@@ -1,8 +1,8 @@
 /* Planta
  *
- * João Gonçalves
+ * João Gonçalves, João Ferreira
  *
- * 14/12/17
+ * 17/12/17
  */
 package model.Data;
 
@@ -13,7 +13,6 @@ public abstract class Planta {
     private Grelha mapa;
     private Map<String, Planta> childMaps;
     private List<PontoDeAcesso> PontosAcesso;
-    private double[] PontoAcesso;
     private String pathImagem;
     private Planta parent;
     
@@ -68,21 +67,25 @@ public abstract class Planta {
         this.pathImagem = pathImagem;
     }
 
-    public double[] getPontoAcesso() {
-        return PontoAcesso;
+    public PontoDeAcesso getPontoAcessoByIndex(int index) {
+        return PontosAcesso.get(index);
+    }
+    
+    public PontoDeAcesso getPontoAcessoByDestino(String destino){
+        for (PontoDeAcesso pa : PontosAcesso) {
+            if(pa.getDestino().getNome().compareTo(destino) == 0)
+                return pa;
+        }
+        return null;
     }
 
-    public void setPontoAcesso(double px, double py) {
-        this.PontoAcesso[0] = px;
-        this.PontoAcesso[1] = py;
+    public void addPontoAcesso(Planta origem, Planta destino, int px, int py) {
+        int[] coordenada = {px,py};
+        PontosAcesso.add(new PontoDeAcesso(origem,destino,coordenada));
     }
     
-    public double getPontoAcessoX(){
-        return this.PontoAcesso[0];
+    public void addPontoAcesso(int px, int py) {
+        int[] coordenada = {px,py};
+        PontosAcesso.add(new PontoDeAcesso(null,this,coordenada));
     }
-    
-    public double getPontoAcessoY(){
-        return this.PontoAcesso[1];
-    }
-    
 }

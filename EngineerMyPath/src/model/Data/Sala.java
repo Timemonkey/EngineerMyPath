@@ -1,16 +1,16 @@
 /* Sala
  *
- * João Gonçalves
+ * João Gonçalves, João Ferreira
  *
- * 14/12/17
+ * 17/12/17
  */
 package model.Data;
 
 public class Sala extends Planta{
     
-    public Sala(Planta parent,String nome, double px, double py) {
+    public Sala(Planta parent,String nome, int px, int py) {
         super(nome);
-        setPontoAcesso(px, py);
+        addPontoAcesso(parent,this,px,py);
         setParent(parent);
     }
     

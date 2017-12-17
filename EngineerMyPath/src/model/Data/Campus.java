@@ -6,8 +6,6 @@
  */
 package model.Data;
 
-import java.util.*;
-
 public class Campus extends Planta {
 
     public Campus(String nome,String path_imagem) {

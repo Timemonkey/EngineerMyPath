@@ -7,24 +7,28 @@
 package model.Data;
 
 public class PontoDeAcesso {
-    private Planta origem, destino;
-    private double [] coordenada;
+    private Planta planta,destino;
+    private int [] coordenada;
     
-    PontoDeAcesso(Planta origem, Planta destino, double[] coordenada){
-        this.origem = origem;
+    PontoDeAcesso(Planta planta, Planta destino, int[] coordenada){
+        this.planta = planta;
         this.destino = destino;
         this.coordenada = coordenada;
     }
     
-    public Planta getOrigem(){
-        return origem;
+    public Planta getPlanta(){
+        return planta;
     }
     
     public Planta getDestino(){
         return destino;
     }
     
-    public double[] getCoordenada(){
-        return coordenada;
+    public int getX(){
+        return coordenada[0];
+    }
+    
+    public int getY(){
+        return coordenada[1];
     }
 }
