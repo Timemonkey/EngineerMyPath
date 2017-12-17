@@ -1,6 +1,6 @@
-/* Modelo
+/* AppData
  *
- * João Gonçalves
+ * João Gonçalves, João Ferreira
  *
  * 14/12/17
  */
@@ -175,6 +175,7 @@ public class AppData extends Observable implements Pesquisa {
             return 1; //Mesmo Edificio
         return 2; //Edificios Diferentes
     }
+    
     private void getPASameEdificio(Map<Planta,double[]> PA,Sala s1, Sala s2){
         Piso p1 = (Piso) s1.getParent();
         Piso p2 = (Piso) s2.getParent();

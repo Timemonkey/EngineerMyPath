@@ -1,23 +1,21 @@
 ﻿CAMPUS
-EDIFICIOS
-Fundição	4	109
-LDEM	12	68
-Departamento de Engenharia Mecânica/Edifício de Eletromecânica	13	44
-Departamento de Engenharia Eletrotécnica	14	28
-Departamento de Física e Matemática/Edifício Gerais - Traseiras	17	75
-Auditório	20	59
-Departamento de Física e Matemática/Edifício Gerais - Frente	20	73
-Departamento de Engenharia Civil	21	90
-DEIS	23	116
-Secção Textos	26	42
-Departamento de Engenharia Química	28	26
-Bloco Administrativo - Frente	28	62
-Bloco Administrativo - Traseiras	29	41
-Bloco Administrativo - Associação de Estudantes	32	41
-Cantina	32	115
-Entrada Secundária	36	39
-Entrada Principal	36	65
-Entrada perto da Cantina	55	107
+FUNDIÇÃO    109 4
+LDEM    68  12
+DEM 44  13
+DEE 28  14
+GERAIS  73  20
+AUDITÓRIO   59  20
+DEC 90  21
+DEIS    116 23
+TEXTOS  42  26
+DEQ 26  28
+ADMINISTRATIVO FRENTE   62  28
+ADMINISTRATIVO TRASEIRAS    41  29
+ADMINISTRATIVO AE   41  32
+CANTINA 115 32
+ENTRADA DEQ 39  36
+ENTRADA PRINCIPAL   65  36
+ENTRADA CANTINA 107 55
 MAPA
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
