@@ -22,6 +22,8 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
     public PesquisaItinerarioPanel(ObservableApp oApp){
         this.observableApp = oApp;
         this.observableApp.addObserver(this);
+        
+        update(observableApp,null);
     }
     @Override
     public void update(Observable o, Object o1) {

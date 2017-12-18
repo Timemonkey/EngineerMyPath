@@ -25,6 +25,8 @@ class PesquisaSalaPanel extends JPanel implements Observer {
     public PesquisaSalaPanel(ObservableApp oApp){
         this.observableApp = oApp;
         this.observableApp.addObserver(this);
+        
+        update(observableApp,null);
     }
     
     @Override
