@@ -2,19 +2,18 @@
  *
  * João Gonçalves, João Ferreira
  *
- * 17/12/17
+ * 18/12/17
  */
 package model.Data;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.*;
 
 import model.Data.Grelha.CelulaMapa;
 
-public class AppData extends Observable implements Pesquisa {
+public class AppData{
 
     private Planta plantaGeral;
     private List<List<CelulaMapa>> listaPerc;
@@ -207,34 +206,12 @@ public class AppData extends Observable implements Pesquisa {
         return 2; //Edificios Diferentes
     }
     
-    private boolean getPontosAcessoInsideEdificio(List<PontoDeAcesso> PA,PontoDeAcesso pa1, PontoDeAcesso pa2){
-        Piso p2 = (Piso) pa2.getPlanta();
-        Piso px = (Piso) pa1.getPlanta();
-        String str = "PISO ";
-        PontoDeAcesso pa3, pa4;
-        do{
-            pa3 = px.getPontoAcessoByDestino(str + (px.getFloorNumber()-1));
-            pa4 = px.getPontoAcessoByDestino(str + (px.getFloorNumber()+1));
-            if (pa3==null || pa4==null)
-                return false;
-            if (px.getFloorNumber()>p2.getFloorNumber()){
-                PA.add(pa4);
-                PA.add(pa3);
-                px = (Piso) pa3.getDestino();
-            } else {
-                PA.add(pa3);
-                PA.add(pa4);
-                px = (Piso) pa4.getDestino();
-            }
-        }while(px.getFloorNumber()!=p2.getFloorNumber());
-        return true;
-    }
-    
     private Edificio getEdificioOfPontoAcesso(PontoDeAcesso pa){
         if (pa.getPlanta() instanceof Piso)
             return (Edificio) pa.getPlanta().getParent();
         return (Edificio) pa.getDestino();
     }
+    
     
     private PontoDeAcesso getSaidaEdificio(PontoDeAcesso pa){
         Edificio ed = getEdificioOfPontoAcesso(pa);
@@ -249,6 +226,40 @@ public class AppData extends Observable implements Pesquisa {
         return null;
     }
     
+    //Procura e adiciona à ArrayList de PA's os vários Pontos de Acesso entre os pisos
+    private boolean getPontosAcessoInsideEdificio(List<PontoDeAcesso> PA,PontoDeAcesso pa1, PontoDeAcesso pa2){
+        Piso p1 = (Piso) pa1.getPlanta();
+        Piso p2 = (Piso) pa2.getPlanta();
+        Piso px = p1;
+        String str = "PISO ";
+        PontoDeAcesso paA, paB = null;
+        boolean sentido;
+        sentido = px.getFloorNumber()>p2.getFloorNumber(); //down -> true , up -> false
+        do{
+            if (sentido){
+                //Se estiver num piso superior ao piso de destino
+                paA = px.getPontoAcessoByDestino(str + (px.getFloorNumber()-1));
+                if (px!=p1)
+                    paB = px.getPontoAcessoByDestino(str + (px.getFloorNumber()+1));
+            } else {
+                //Se estiver num piso inferior ao piso de destino
+                paA = px.getPontoAcessoByDestino(str + (px.getFloorNumber()+1));
+                if (px!=p1)
+                    paB = px.getPontoAcessoByDestino(str + (px.getFloorNumber()-1));
+            }
+            if(paB!=null)
+                PA.add(paB);
+            if(paA!=null){
+                PA.add(paA);
+                px = (Piso) paA.getDestino();
+            } else {
+                PA.add(pa2);
+                return true;
+            }
+        }while(true);
+    }
+    
+    //Adiciona o Ponto de Acesso de um edificio à ArrayList de Pa's
     private boolean getPontoAcessoOutsideEdificio(List<PontoDeAcesso> PA, PontoDeAcesso pa){
         Edificio ed = getEdificioOfPontoAcesso(pa);
         PontoDeAcesso pa2 = plantaGeral.getPontoAcessoByDestino(ed.getNome());
@@ -258,7 +269,8 @@ public class AppData extends Observable implements Pesquisa {
         return true;
     }
     
-    private boolean getPontosAcesso(List<PontoDeAcesso> PA,PontoDeAcesso pa1, PontoDeAcesso pa2){ //DÁ PARA SER BASTANTE CONSOLIDADA
+    private boolean getPontosAcesso(List<PontoDeAcesso> PA,PontoDeAcesso pa1, PontoDeAcesso pa2){ 
+        
         switch(getRelation(pa1,pa2)){
             case 0: // Sala -> Sala , Mesmo Piso
                 return true;
@@ -305,13 +317,15 @@ public class AppData extends Observable implements Pesquisa {
         }
         return false;
     }
-
-    @Override
-    public List<CelulaMapa> getProximoPercurso() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public Planta pesquisaMapa(String loc) {
+        String [] strArr = loc.split(",");
+        Edificio ed = (Edificio) plantaGeral.getChild(strArr[1]);
+        //Acho que não é isto que é para devolver
+        return findSalaInEdificio(ed,strArr[0]);
     }
+    
 
-    @Override
     public List<CelulaMapa> pesquisaPerc(String loc1, String loc2) { //Não inclui as entradas do campus
         List <PontoDeAcesso> PontosAcesso = new ArrayList<>();
         Sala origem = (Sala) pesquisaMapa(loc1);
@@ -319,9 +333,12 @@ public class AppData extends Observable implements Pesquisa {
         PontoDeAcesso pa1,pa2;
         if (origem == null || destino == null)
             return null;
+        //Obtem uma lista dos Pontos de Acesso por onde o percurso passa
         PontosAcesso.add(origem.getPontoAcessoByIndex(0));
-        getPontosAcesso(PontosAcesso,origem.getPontoAcessoByIndex(0),destino.getPontoAcessoByIndex(0)); 
+        if (!getPontosAcesso(PontosAcesso,origem.getPontoAcessoByIndex(0),destino.getPontoAcessoByIndex(0)))
+            return null;
         PontosAcesso.add(destino.getPontoAcessoByIndex(0));
+        //A cada iteração retira 2 Pontos de Acesso da lista e calcula o percurso. Atualiza variáveis   
         for(int i=0;i<PontosAcesso.size();i+=2){
             pa1 = PontosAcesso.get(i);
             pa2 = PontosAcesso.get(i+1);
@@ -329,18 +346,17 @@ public class AppData extends Observable implements Pesquisa {
             plantasPerc.add(pa1.getPlanta());
             numPercursos++;
         }
+        //Não percebo o que é para devolver
         return null;
     }
 
-    @Override
-    public Planta pesquisaMapa(String loc) {
-        String [] strArr = loc.split(",");
-        Edificio ed = (Edificio) plantaGeral.getChild(strArr[1]);
-        return findSalaInEdificio(ed,strArr[0]);
+    public List<CelulaMapa> getProximoPercurso() {
+        //Não sei bem o que esta função faz
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public List<CelulaMapa> getPercursoAnterior() {
+        //Não sei bem o que esta função faz
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
