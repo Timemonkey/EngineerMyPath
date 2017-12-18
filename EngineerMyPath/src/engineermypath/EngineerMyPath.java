@@ -8,9 +8,10 @@
 
 package engineermypath;
 
+import model.Data.Grelha;
+
 public class EngineerMyPath {
 
-    
     public static void main(String[] args) {
         double[][] mat = { { 0, 1, 2 }, { 3, 3, 2 }, { 0, -1, 0 } };
         Grelha grelha = new Grelha(mat);      

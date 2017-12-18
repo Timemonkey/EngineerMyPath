@@ -6,9 +6,9 @@
  *
  * Interface que representa uma célula no mapa
  */
-package engineermypath;
+package model.Data;
 
-import engineermypath.Grelha.*;
+import model.Data.Grelha.*;
 import java.util.*;
 
 public interface Nodo {
