@@ -1,16 +1,17 @@
 /* Edificio
  *
- * João Gonçalves
+ * João Gonçalves, João Ferreira
  *
- * 14/12/17
+ * 17/12/17
  */
 package model.Data;
 
 public class Edificio extends Planta{
     private int nPisos;
-    public Edificio(String nome, double px, double py) {
+    
+    public Edificio(Planta parent,String nome, int px, int py) {
         super(nome);
-        setPontoAcesso(px, py);
+        addPontoAcesso(parent,this,px, py);
     }
     
     public void setNPisos(int nPisos){

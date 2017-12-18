@@ -1,3 +1,9 @@
+/* Interface IStates
+ *
+ * João Gonçalves
+ *
+ * 17/12/17
+ */
 package model.States;
 
 public interface IStates {

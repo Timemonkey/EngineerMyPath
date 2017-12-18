@@ -1,7 +1,12 @@
+/* StateAdapter
+ *
+ * João Gonçalves
+ *
+ * 17/12/17
+ */
 package model.States;
 
 import model.Data.AppData;
-import model.*;
 
 public class StateAdapter implements IStates 
 { 
