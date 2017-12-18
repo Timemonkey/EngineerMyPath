@@ -23,6 +23,7 @@ public class AppData {
     public AppData() {
         leFicheiroPlantaGeral();
         leFicheiro("Deis.txt");
+        PrintPlantas();
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
     }
@@ -179,7 +180,19 @@ public class AppData {
             System.out.println("Não foi possível localizar o ficheiro");
         }
     }
-
+    public void PrintPlantas(){
+        PrintPlantasRecursivo(plantaGeral);
+    }
+    
+    private void PrintPlantasRecursivo(Planta p){
+        if(p!=null)
+            return;
+        System.out.println(p.toString());
+        for(String key : p.getAllChild()){
+            PrintPlantasRecursivo(p.getChild(key));
+        }
+    }
+    
     private Sala findSalaInEdificio(Edificio ed, String nomeSala) {
         Piso p;
         for (int i = 0; i < ed.getNPisos(); i++) {

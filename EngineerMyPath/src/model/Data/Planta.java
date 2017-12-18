@@ -35,6 +35,10 @@ public abstract class Planta {
         return nome;
     }
     
+    public Set<String> getAllChild(){
+        return childMaps.keySet();
+    }
+    
     public void addChild(String key, Planta child){
         childMaps.put(key, child);
     }
@@ -88,4 +92,11 @@ public abstract class Planta {
         int[] coordenada = {px,py};
         PontosAcesso.add(new PontoDeAcesso(null,this,coordenada));
     }
+
+    @Override
+    public String toString() {
+        return "\n\nPlanta:\n\n" + "\tNome = " + nome + "\n\t Tem Mapa = " + (mapa!=null) + "\n\t childMaps = " + childMaps + "\n\t PontosAcesso = " + PontosAcesso + "\n\t Tem PathImagem = " + (pathImagem!=null) + "\n\t parent = " + parent.getNome();
+    }
+    
+    
 }
