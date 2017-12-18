@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* ObservableApp
+ *
+ * João Gonçalves
+ *
+ * 17/12/17
  */
 package model;
 
@@ -9,10 +10,6 @@ import java.util.Observable;
 import model.Data.AppData;
 import model.States.IStates;
 
-/**
- *
- * @author João
- */
 public class ObservableApp extends Observable{
     private App app;
     
