@@ -17,7 +17,7 @@ public class AppData{
 
     private Planta plantaGeral;
     private List<List<CelulaMapa>> listaPerc;
-    private int numPercursos=0;
+    private int percursoAtual;
     private List<Planta> plantasPerc;
 
     public AppData() {
@@ -25,7 +25,6 @@ public class AppData{
         leFicheiro("src/Deis.txt");
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
-        numPercursos = 0;
     }
 
     public Planta getPlantaGeral() {
@@ -326,17 +325,17 @@ public class AppData{
     }
     
 
-    public List<CelulaMapa> pesquisaPerc(String loc1, String loc2) { //Não inclui as entradas do campus
+    public boolean pesquisaPerc(String loc1, String loc2) { //Não inclui as entradas do campus
         List <PontoDeAcesso> PontosAcesso = new ArrayList<>();
         Sala origem = (Sala) pesquisaMapa(loc1);
         Sala destino = (Sala) pesquisaMapa(loc2);
         PontoDeAcesso pa1,pa2;
         if (origem == null || destino == null)
-            return null;
+            return false;
         //Obtem uma lista dos Pontos de Acesso por onde o percurso passa
         PontosAcesso.add(origem.getPontoAcessoByIndex(0));
         if (!getPontosAcesso(PontosAcesso,origem.getPontoAcessoByIndex(0),destino.getPontoAcessoByIndex(0)))
-            return null;
+            return false;
         PontosAcesso.add(destino.getPontoAcessoByIndex(0));
         //A cada iteração retira 2 Pontos de Acesso da lista e calcula o percurso. Atualiza variáveis   
         for(int i=0;i<PontosAcesso.size();i+=2){
@@ -344,19 +343,16 @@ public class AppData{
             pa2 = PontosAcesso.get(i+1);
             listaPerc.add(pa1.getPlanta().getMapa().findPath(pa1.getX(),pa1.getY(),pa2.getX(),pa2.getY()));
             plantasPerc.add(pa1.getPlanta());
-            numPercursos++;
         }
-        //Não percebo o que é para devolver
-        return null;
+        percursoAtual=0;
+        return true;
     }
 
     public List<CelulaMapa> getProximoPercurso() {
-        //Não sei bem o que esta função faz
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return listaPerc.get(++percursoAtual);
     }
 
     public List<CelulaMapa> getPercursoAnterior() {
-        //Não sei bem o que esta função faz
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return listaPerc.get(--percursoAtual);
     }
 }
