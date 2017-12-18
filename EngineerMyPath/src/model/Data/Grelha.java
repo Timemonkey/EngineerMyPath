@@ -6,7 +6,7 @@
  *
  * Representa o mapa de uma planta, contém também a implementação da classe CelulaMapa que representa uma célula na grelha
  */
-package model;
+package model.Data;
 
 import java.util.*;
 
@@ -108,8 +108,8 @@ public class Grelha {
 
     }
     
-    public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
-        return new PathFinding().doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
+       public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
+        return PathFinding.doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
                 xFinal, yFinal));
     }
 }
