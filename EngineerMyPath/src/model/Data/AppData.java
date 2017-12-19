@@ -23,9 +23,14 @@ public class AppData {
     public AppData() {
         leFicheiroPlantaGeral();
         leFicheiro("Deis.txt");
-        PrintPlantas();
+        leFicheiro("Gerais.txt");
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
+        //System.out.println(pesquisaPerc("DEIS","GERAIS"));
+        //System.out.println(pesquisaPerc("L2.1,DEIS","G1 117,GERAIS"));
+        //System.out.println(pesquisaPerc("L2.1,DEIS","BIBLIOTECA,DEIS"));
+        //System.out.println(pesquisaPerc("L2.1,DEIS","GERAIS"));
+        System.out.println(pesquisaPerc("GERAIS","L2.1,DEIS"));
     }
 
     public Planta getPlantaGeral() {
@@ -44,7 +49,10 @@ public class AppData {
 
         try {
             Scanner sc = new Scanner(new File("src/Campus.txt"));
-            str = sc.nextLine();
+            //O StringBuilder é para remover um carater que estava a aparecer no inicio do ficheiro
+            StringBuilder sb = new StringBuilder(sc.nextLine());
+            sb.deleteCharAt(0);
+            str = sb.toString();
             plantaGeral = new Campus(str, "imagens/Campus.png");
 
             while ((str = sc.nextLine()).compareTo("MAPA") != 0) {
@@ -64,9 +72,6 @@ public class AppData {
                 columns = colReader.next().length();
             }
 
-            System.out.println("nLinhas - " + rows);
-            System.out.println("nColunas - " + columns);
-
             mapa = new double[rows][columns];
 
             sc.close();
@@ -78,14 +83,11 @@ public class AppData {
 
             for (int i = 0; i < rows; i++) {
                 str = sc.nextLine();
-                System.out.println(str);
                 sc2 = new Scanner(str);
                 for (int j = 0; j < columns; j++) {
                     mapa[i][j] = Integer.parseInt("" + str.charAt(j));
                 }
             }
-
-            System.out.println("Li bem o ficheiro");
 
             plantaGeral.setMapa(new Grelha(mapa));
             sc.close();
@@ -103,19 +105,16 @@ public class AppData {
         try {
             Scanner sc = new Scanner(new File("src/" + ficheiro));
 
-            while ((str = sc.nextLine()).compareTo("MAPA") != 0) {
-            }
-
+            while ((str = sc.nextLine()).compareTo("MAPA") != 0) {}
+            
             int rows = 0;
             int columns = 0;
-            while (sc.hasNextLine()) {
+            
+            while (!(str = sc.nextLine()).contains("PISO")) {
                 ++rows;
-                Scanner colReader = new Scanner(sc.nextLine());
+                Scanner colReader = new Scanner(str);
                 columns = colReader.next().length();
             }
-
-            System.out.println("nLinhas - " + rows);
-            System.out.println("nColunas - " + columns);
 
             mapa = new double[rows][columns];
 
@@ -142,7 +141,6 @@ public class AppData {
                     strArr = str.split(":");
                     px = Integer.parseInt(strArr[1]);
                     py = Integer.parseInt(strArr[2]);
-                    System.out.println("Passei Aqui");
                     if ((strArr[0].compareTo(plantaGeral.getNome())) != 0) {
                         if (!ed.hasChild(strArr[0])) {
                             Piso p2 = new Piso(ed, strArr[0]);
@@ -166,7 +164,6 @@ public class AppData {
                 //para ler o mapa
                 for (int i = 0; i < rows; i++) {
                     str = sc.nextLine();
-                    System.out.println(str);
                     sc2 = new Scanner(str);
                     for (int j = 0; j < columns; j++) {
                         mapa[i][j] = Integer.parseInt("" + str.charAt(j));
@@ -180,23 +177,11 @@ public class AppData {
             System.out.println("Não foi possível localizar o ficheiro");
         }
     }
-    public void PrintPlantas(){
-        PrintPlantasRecursivo(plantaGeral);
-    }
-    
-    private void PrintPlantasRecursivo(Planta p){
-        if(p!=null)
-            return;
-        System.out.println(p.toString());
-        for(String key : p.getAllChild()){
-            PrintPlantasRecursivo(p.getChild(key));
-        }
-    }
     
     private Sala findSalaInEdificio(Edificio ed, String nomeSala) {
         Piso p;
         for (int i = 0; i < ed.getNPisos(); i++) {
-            p = (Piso) ed.getChild("P" + i);
+            p = (Piso) ed.getChild("PISO " + i);
             if (p.hasChild(nomeSala)) {
                 return (Sala) p.getChild(nomeSala);
             }
@@ -241,7 +226,20 @@ public class AppData {
         Piso p;
         PontoDeAcesso pa2;
         for (int i = 0; i < ed.getNPisos(); i++) {
-            p = (Piso) ed.getChild("P" + i);
+            p = (Piso) ed.getChild("PISO " + i);
+            pa2 = p.getPontoAcessoByDestino(plantaGeral.getNome());
+            if (pa2 != null) {
+                return pa2;
+            }
+        }
+        return null;
+    }
+    
+    private PontoDeAcesso getSaidaEdificio(Edificio ed) {
+        Piso p;
+        PontoDeAcesso pa2;
+        for (int i = 0; i < ed.getNPisos(); i++) {
+            p = (Piso) ed.getChild("PISO " + i);
             pa2 = p.getPontoAcessoByDestino(plantaGeral.getNome());
             if (pa2 != null) {
                 return pa2;
@@ -277,6 +275,10 @@ public class AppData {
                 PA.add(paB);
             }
             if (paA != null) {
+                if (px.getFloorNumber()==p2.getFloorNumber()){
+                    PA.add(pa2);
+                    return true;
+                }
                 PA.add(paA);
                 px = (Piso) paA.getDestino();
             } else {
@@ -298,9 +300,10 @@ public class AppData {
     }
 
     private boolean getPontosAcesso(List<PontoDeAcesso> PA, PontoDeAcesso pa1, PontoDeAcesso pa2) {
-
+        PA.add(pa1);
         switch (getRelation(pa1, pa2)) {
             case 0: // Sala -> Sala , Mesmo Piso
+                PA.add(pa2);
                 return true;
             case 1: // Sala -> Sala , Pisos Diferentes
                 return getPontosAcessoInsideEdificio(PA, pa1, pa2);
@@ -320,26 +323,24 @@ public class AppData {
                 if (!getPontoAcessoOutsideEdificio(PA, pa2)) {
                     return false;
                 }
+                PA.add(pa4);
                 return getPontosAcessoInsideEdificio(PA, pa4, pa2);
 
             case 3: // Edificio -> Edificio
-                if (!getPontoAcessoOutsideEdificio(PA, pa1)) {
-                    return false;
-                }
-                return getPontoAcessoOutsideEdificio(PA, pa2);
+                PA.add(pa2);
+                return true;
 
             case 4: // Edificio -> Sala 
                 PontoDeAcesso pa5 = getSaidaEdificio(pa2);
                 if (pa5 == null) {
                     return false;
                 }
-                if (!getPontoAcessoOutsideEdificio(PA, pa1)) {
-                    return false;
-                }
                 if (!getPontoAcessoOutsideEdificio(PA, pa2)) {
                     return false;
                 }
+                PA.add(pa5);
                 return getPontosAcessoInsideEdificio(PA, pa5, pa2);
+                
             case 5: // Sala -> Edificio
                 PontoDeAcesso pa6 = getSaidaEdificio(pa1);
                 if (pa6 == null) {
@@ -356,28 +357,80 @@ public class AppData {
         }
         return false;
     }
-
-    public Planta pesquisaMapa(String loc) {
-        String[] strArr = loc.split(",");
+    
+    public boolean pesquisaMapa(String loc) {
+        Planta p = pesquisa(loc);
+        if (p == null) {
+            return false;
+        }
+        plantasPerc.add(p);
+        percursoAtual=0;
+        return true;
+    }
+    
+    //Encontra uma sala num determinado edificio 
+    private Planta pesquisaSala(String[] strArr) {
         Edificio ed = (Edificio) plantaGeral.getChild(strArr[1]);
-        //Acho que não é isto que é para devolver
         return findSalaInEdificio(ed, strArr[0]);
+    }
+    
+    //Retorna uma lista de todas as salas com o nome recebido como argumento 
+    private List<String> findSala(String str){ 
+        List<String> results = new ArrayList<>(); 
+        for(String strE : plantaGeral.getAllChild()){
+            Edificio ed = (Edificio) plantaGeral.getChild(strE);
+            for(String strP : ed.getAllChild()){
+                Piso p = (Piso) ed.getChild(strP);
+                for(String strS : p.getAllChild()){
+                    if(str.equals(p.getChild(strS)))
+                        results.add(strS + "," + strE );
+                }
+            }
+        }
+        return results;
+    } 
+    
+    //Percebe se o utilizador pesquisou o nome de uma sala, edificio ou sala e edificio
+    //Retorna a sala ou edificio encontrado
+    private Planta pesquisa(String loc){
+        String[] strArr = loc.split(",");
+        if (strArr.length==2){
+            return pesquisaSala(strArr);
+        } else if (strArr.length==1){
+            if (plantaGeral.hasChild(strArr[0]))
+                return plantaGeral.getChild(strArr[0]);
+            else{
+                for(String s : findSala(strArr[0])){
+                    //Ainda não esta acabado
+                    strArr = s.split(",");
+                    return pesquisaSala(strArr);
+                }
+            }
+        }
+        return null;
     }
 
     public boolean pesquisaPerc(String loc1, String loc2) { //Não inclui as entradas do campus
         List<PontoDeAcesso> PontosAcesso = new ArrayList<>();
-        Sala origem = (Sala) pesquisaMapa(loc1);
-        Sala destino = (Sala) pesquisaMapa(loc2);
+        Planta origem = pesquisa(loc1);
+        Planta destino = pesquisa(loc2);
         PontoDeAcesso pa1, pa2;
         if (origem == null || destino == null) {
             return false;
         }
+        //Obtem o inicio e fim do percurso
+        pa1 = origem.getPontoAcessoByIndex(0);
+        pa2 = destino.getPontoAcessoByIndex(0);
+
         //Obtem uma lista dos Pontos de Acesso por onde o percurso passa
-        PontosAcesso.add(origem.getPontoAcessoByIndex(0));
-        if (!getPontosAcesso(PontosAcesso, origem.getPontoAcessoByIndex(0), destino.getPontoAcessoByIndex(0))) {
+        if (!getPontosAcesso(PontosAcesso, pa1, pa2)) {
             return false;
         }
-        PontosAcesso.add(destino.getPontoAcessoByIndex(0));
+        for(int i=0; i<PontosAcesso.size();i++){
+            System.out.println("Ponto de Acesso nº" + i + " -> " + PontosAcesso.get(i).toString());
+        }
+        if(PontosAcesso.size()%2!=0)
+            return false;
         //A cada iteração retira 2 Pontos de Acesso da lista e calcula o percurso. Atualiza variáveis   
         for (int i = 0; i < PontosAcesso.size(); i += 2) {
             pa1 = PontosAcesso.get(i);

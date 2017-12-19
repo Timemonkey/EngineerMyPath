@@ -8,6 +8,7 @@ package model;
 
 import model.Data.AppData;
 import model.States.IStates;
+import model.States.MenuInicial;
 
 public class App {
     private AppData appData;
@@ -15,6 +16,7 @@ public class App {
     
     public App(){
         this.appData = new AppData();
+        state = new MenuInicial(appData);
     }
     
     public IStates getState() {
