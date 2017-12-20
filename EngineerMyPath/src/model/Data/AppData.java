@@ -2,7 +2,7 @@
  *
  * João Gonçalves, João Ferreira
  *
- * 18/12/17
+ * 20/12/17
  */
 package model.Data;
 
@@ -361,6 +361,9 @@ public class AppData {
             return false;
         }
         plantasPerc.add(p.getParent());
+        int x = p.getPontoAcessoByIndex(0).getX();
+        int y = p.getPontoAcessoByIndex(0).getY();
+        listaPerc.add(p.getParent().getMapa().findPath(x, y, x, y));
         percursoAtual=0;
         return true;
     }
