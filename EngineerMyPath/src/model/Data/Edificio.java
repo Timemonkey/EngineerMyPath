@@ -11,6 +11,7 @@ public class Edificio extends Planta{
     
     public Edificio(Planta parent,String nome, int px, int py) {
         super(nome);
+        setParent(parent);
         addPontoAcesso(parent,this,px, py);
     }
     
