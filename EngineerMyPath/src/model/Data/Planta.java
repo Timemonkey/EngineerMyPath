@@ -34,7 +34,7 @@ public abstract class Planta {
     public String getNome() {
         return nome;
     }
-    
+   
     public void addChild(String key, Planta child){
         childMaps.put(key, child);
     }
@@ -87,5 +87,9 @@ public abstract class Planta {
     public void addPontoAcesso(int px, int py) {
         int[] coordenada = {px,py};
         PontosAcesso.add(new PontoDeAcesso(null,this,coordenada));
+    }
+    
+    public Set<String> getAllChild(){
+        return childMaps.keySet();
     }
 }
