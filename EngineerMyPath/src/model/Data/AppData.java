@@ -459,6 +459,10 @@ public class AppData {
         return plantasPerc.get(percursoAtual);
     }
     
+    public List<CelulaMapa> getPercurso() {
+        return listaPerc.get(percursoAtual);
+    }
+    
     public void setProximoPercurso(){
         this.percursoAtual++;
     }
