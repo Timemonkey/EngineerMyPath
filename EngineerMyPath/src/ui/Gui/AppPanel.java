@@ -53,6 +53,8 @@ public class AppPanel extends JPanel implements Observer {
         
         setBackground(Color.DARK_GRAY);
         setBorder(new LineBorder(Color.BLACK));
+        
+        update(observableApp, null);
     }
     
     @Override
