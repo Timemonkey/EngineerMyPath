@@ -44,6 +44,7 @@ public class AppPanel extends JPanel implements Observer {
     
     private void setupLayout(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        //this.setSize(dmnsn);
         
         add(Box.createVerticalGlue());
         add(menuInicialPanel);
@@ -53,6 +54,8 @@ public class AppPanel extends JPanel implements Observer {
         
         setBackground(Color.DARK_GRAY);
         setBorder(new LineBorder(Color.BLACK));
+        
+        update(observableApp, null);
     }
     
     @Override

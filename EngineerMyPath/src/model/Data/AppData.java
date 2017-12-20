@@ -31,6 +31,7 @@ public class AppData {
         //System.out.println(pesquisaPerc("L2.1,DEIS","BIBLIOTECA,DEIS"));
         //System.out.println(pesquisaPerc("L2.1,DEIS","GERAIS"));
         System.out.println(pesquisaPerc("GERAIS","L2.1,DEIS"));
+        percursoAtual = 0;
     }
 
     public Planta getPlantaGeral() {
@@ -53,7 +54,7 @@ public class AppData {
             StringBuilder sb = new StringBuilder(sc.nextLine());
             sb.deleteCharAt(0);
             str = sb.toString();
-            plantaGeral = new Campus(str, "imagens/Campus.png");
+            plantaGeral = new Campus(str, "images/campus.png");
 
             while ((str = sc.nextLine()).compareTo("MAPA") != 0) {
                 strArr = str.split(":");
@@ -137,6 +138,8 @@ public class AppData {
                 } else {
                     p = (Piso) ed.getChild(str);
                 }
+                str = sc.nextLine();
+                p.setPathImagem(str);
                 while ((str = sc.nextLine()).compareTo("SALAS") != 0) {
                     strArr = str.split(":");
                     px = Integer.parseInt(strArr[1]);
@@ -448,5 +451,17 @@ public class AppData {
 
     public List<CelulaMapa> getPercursoAnterior() {
         return listaPerc.get(--percursoAtual);
+    }
+    
+    public Planta getPlantaAtual(){
+        return plantasPerc.get(percursoAtual);
+    }
+    
+    public void setProximoPercurso(){
+        this.percursoAtual++;
+    }
+    
+    public void setPercursoAnterior(){
+        this.percursoAtual--;
     }
 }

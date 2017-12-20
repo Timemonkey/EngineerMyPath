@@ -54,4 +54,8 @@ public class App {
     public void TerminarPesquisa() {
         setState(getState().TerminarPesquisa());
     }
+    
+    public boolean existeLoc(String loc){
+        return appData.pesquisaMapa(loc);
+    }
 }
