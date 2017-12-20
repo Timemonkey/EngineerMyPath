@@ -8,11 +8,14 @@ package ui.Gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
@@ -46,6 +49,8 @@ class MenuInicialPanel extends JPanel implements Observer {
         
         setupLayout();
         setupListeners();
+        
+        update(observableApp,null);
     }
     
     private void setupLayout(){
@@ -65,24 +70,26 @@ class MenuInicialPanel extends JPanel implements Observer {
             System.err.println(e.getMessage());
         }
         
-        add(Box.createVerticalStrut(10));
-        add(Box.createVerticalGlue());
+        add(Box.createVerticalStrut(50));
+        //add(Box.createVerticalGlue());
         
         locOrigemT.setAlignmentX(Component.CENTER_ALIGNMENT);
         locOrigemT.setAlignmentY(Component.CENTER_ALIGNMENT);
-        locOrigemT.setMaximumSize(new Dimension(200, 25));
-        locOrigemT.setMinimumSize(new Dimension(200, 25));
-        locOrigemT.setSize(new Dimension(200, 25));        
+        locOrigemT.setMaximumSize(new Dimension(200, 30));
+        locOrigemT.setMinimumSize(new Dimension(200, 30));
+        locOrigemT.setSize(new Dimension(200, 30));
+        locOrigemT.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,14));        
         add(locOrigemT);
+
         
-        add(Box.createVerticalStrut(10));
-        add(Box.createVerticalGlue());
+        add(Box.createVerticalStrut(30));
         
         locDestinoT.setAlignmentX(Component.CENTER_ALIGNMENT);
         locDestinoT.setAlignmentY(Component.CENTER_ALIGNMENT);
-        locDestinoT.setMaximumSize(new Dimension(200, 25));
-        locDestinoT.setMinimumSize(new Dimension(200, 25));
-        locDestinoT.setSize(new Dimension(200, 25));        
+        locDestinoT.setMaximumSize(new Dimension(200, 30));
+        locDestinoT.setMinimumSize(new Dimension(200, 30));
+        locDestinoT.setSize(new Dimension(200, 30)); 
+        locDestinoT.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,14));
         add(locDestinoT);
         
         add(Box.createVerticalStrut(20));
@@ -90,13 +97,16 @@ class MenuInicialPanel extends JPanel implements Observer {
         
         pesquisaB.setAlignmentX(Component.CENTER_ALIGNMENT);
         pesquisaB.setAlignmentY(Component.CENTER_ALIGNMENT);
-        pesquisaB.setMaximumSize(new Dimension(120, 30));
-        pesquisaB.setMinimumSize(new Dimension(120, 30));
-        pesquisaB.setSize(new Dimension(120, 30));        
+        pesquisaB.setMaximumSize(new Dimension(120, 50));
+        pesquisaB.setMinimumSize(new Dimension(120, 50));
+        pesquisaB.setSize(new Dimension(120, 50));  
+        pesquisaB.setFont(new Font(Font.SANS_SERIF,Font.BOLD,16));
         add(pesquisaB);
         
         add(Box.createVerticalGlue());
         
+        locDestinoT.requestFocus();
+        locOrigemT.setVisible(false);
         validate();
     }
     
@@ -105,23 +115,61 @@ class MenuInicialPanel extends JPanel implements Observer {
         locDestinoT.addKeyListener(new KeyListener(){
             @Override
             public void keyTyped(KeyEvent ke) {
-                if(locDestinoT.getText().length() > 3)
+                if(locDestinoT.getText().length() >= 3 && locDestinoT.getText().compareTo("Localização de Destino") != 0){
                     locOrigemT.setVisible(true);
-                else if(locDestinoT.getText().length() < 4)
+                    validate();
+                }
+                /*else if(locDestinoT.getText().length() < 3 || locDestinoT.getText().compareTo("Localização de Destino") == 0){
                     locOrigemT.setVisible(false);
+                    validate();
+                }*/
             }
 
             @Override
             public void keyPressed(KeyEvent ke) {}
 
             @Override
-            public void keyReleased(KeyEvent ke) {}
+            public void keyReleased(KeyEvent ke) {
+                if(locDestinoT.getText().length() < 4 || locDestinoT.getText().compareTo("Localização de Destino") == 0){
+                    locOrigemT.setVisible(false);
+                    validate();
+                }
+            }
+        });
+        
+        locDestinoT.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                locDestinoT.setText("");
+            }
+        });
+        
+        locOrigemT.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                locOrigemT.setText("");
+            }
         });
         
         pesquisaB.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
-                //verificar se ambas as caixas estão preenchidas, ou só uma
+            public void actionPerformed(ActionEvent ev) {
+                String strOrigem = locOrigemT.getText().toUpperCase();
+                String strDestino = locDestinoT.getText().toUpperCase();
+                
+                if(strOrigem.compareToIgnoreCase("Localização de Origem") != 0){
+                    if(observableApp.existeLoc(strOrigem) && observableApp.existeLoc(strDestino)){
+                        observableApp.PesquisaItinerario(strOrigem, strDestino);
+                    } else{
+                        JOptionPane.showMessageDialog(null, "As localizações introduzidas não se encontram no sistema!\nFormato: L1.4, DEIS");
+                    }
+                } else {
+                    if(observableApp.existeLoc(strDestino)){
+                        observableApp.PesquisaSala(strDestino);
+                    } else{
+                        JOptionPane.showMessageDialog(null, "As localização introduzida não se encontra no sistema!\nFormato: L1.4, DEIS");
+                    }
+                }
             }
         });
     }

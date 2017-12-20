@@ -6,6 +6,8 @@
  */
 package model.Data;
 
+import java.util.Arrays;
+
 public class PontoDeAcesso {
     private Planta planta,destino;
     private int [] coordenada;
@@ -31,4 +33,11 @@ public class PontoDeAcesso {
     public int getY(){
         return coordenada[1];
     }
+
+    @Override
+    public String toString() {
+        return "Destino : " + destino.getNome() + " | Planta : " + planta.getNome() + " | Coordenada : " + getX() + "," + getY();
+    }
+    
+    
 }

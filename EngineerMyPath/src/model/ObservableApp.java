@@ -10,7 +10,7 @@ import java.util.Observable;
 import model.Data.AppData;
 import model.States.IStates;
 
-public class ObservableApp extends Observable{
+public class ObservableApp extends Observable {
     private App app;
     
     public ObservableApp() {
