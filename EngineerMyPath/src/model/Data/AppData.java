@@ -31,7 +31,6 @@ public class AppData {
         //System.out.println(pesquisaPerc("L2.1,DEIS","BIBLIOTECA,DEIS"));
         //System.out.println(pesquisaPerc("L2.1,DEIS","GERAIS"));
         System.out.println(pesquisaPerc("GERAIS","L2.1,DEIS"));
-        percursoAtual = 0;
     }
 
     public Planta getPlantaGeral() {
