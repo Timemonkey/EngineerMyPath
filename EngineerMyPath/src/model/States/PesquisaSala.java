@@ -16,7 +16,7 @@ public class PesquisaSala extends StateAdapter {
     
     @Override
     public IStates TerminarPesquisa() {
-            
+            this.getAppData().reset();
         return new MenuInicial(getAppData());
     }
 }

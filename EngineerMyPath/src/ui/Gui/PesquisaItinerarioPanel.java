@@ -37,19 +37,19 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
     private ObservableApp observableApp;
     
     private JLabel imgLabel;
-    private JButton seguinteTerminarPesquisaB;
-    private JButton anteriorPesquisaB;
+    private JButton seguinteTerminarB;
+    private JButton anteriorB;
     
     public PesquisaItinerarioPanel(ObservableApp oApp){
         this.observableApp = oApp;
         this.observableApp.addObserver(this);
         
-        seguinteTerminarPesquisaB = new JButton("Seguinte");
-        anteriorPesquisaB = new JButton("Anterior");
-        imgLabel = new JLabel();
+        seguinteTerminarB = new JButton("Seguinte");
+        anteriorB = new JButton("Anterior");
+        imgLabel = new MapaLabel(observableApp);
         
         setupLayout();
-        //setupListeners();
+        setupListeners();
         
         update(observableApp, null);
     }
@@ -57,18 +57,18 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(Color.GRAY);
-        //this.setSize(dmnsn);
-        
+                
         add(Box.createHorizontalGlue());
         add(Box.createHorizontalStrut(10));
         
-        anteriorPesquisaB.setAlignmentX(Component.CENTER_ALIGNMENT);
-        anteriorPesquisaB.setAlignmentY(Component.CENTER_ALIGNMENT);
-        anteriorPesquisaB.setMaximumSize(new Dimension(100, 30));
-        anteriorPesquisaB.setMinimumSize(new Dimension(100, 30));
-        anteriorPesquisaB.setSize(new Dimension(100, 30));  
-        anteriorPesquisaB.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,12));
-        add(anteriorPesquisaB);
+        anteriorB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        anteriorB.setAlignmentY(Component.CENTER_ALIGNMENT);
+        anteriorB.setMaximumSize(new Dimension(100, 30));
+        anteriorB.setMinimumSize(new Dimension(100, 30));
+        anteriorB.setSize(new Dimension(100, 30));  
+        anteriorB.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,12));
+        add(anteriorB);
+        anteriorB.setEnabled(false);
         
         add(Box.createHorizontalGlue());
 
@@ -76,13 +76,13 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
         
         add(Box.createHorizontalGlue());
         
-        seguinteTerminarPesquisaB.setAlignmentX(Component.CENTER_ALIGNMENT);
-        seguinteTerminarPesquisaB.setAlignmentY(Component.CENTER_ALIGNMENT);
-        seguinteTerminarPesquisaB.setMaximumSize(new Dimension(100, 30));
-        seguinteTerminarPesquisaB.setMinimumSize(new Dimension(100, 30));
-        seguinteTerminarPesquisaB.setSize(new Dimension(100, 30));  
-        seguinteTerminarPesquisaB.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,12));
-        add(seguinteTerminarPesquisaB);
+        seguinteTerminarB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        seguinteTerminarB.setAlignmentY(Component.CENTER_ALIGNMENT);
+        seguinteTerminarB.setMaximumSize(new Dimension(100, 30));
+        seguinteTerminarB.setMinimumSize(new Dimension(100, 30));
+        seguinteTerminarB.setSize(new Dimension(100, 30));  
+        seguinteTerminarB.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,12));
+        add(seguinteTerminarB);
         
         add(Box.createHorizontalStrut(10));
         add(Box.createHorizontalGlue());
@@ -91,20 +91,45 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
         validate();
     }
     
+    private void setupListeners(){
+        anteriorB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if(observableApp.getAppData().getPercursoAtual() > 0)
+                    observableApp.Anterior();                
+            }
+        });
+        
+        seguinteTerminarB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if(observableApp.getAppData().getPercursoAtual() < observableApp.getAppData().getNumPercursos() - 1)
+                    observableApp.Seguinte();                
+            }
+        });
+        
+        seguinteTerminarB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if(observableApp.getAppData().getPercursoAtual() < observableApp.getAppData().getNumPercursos() - 1)
+                    observableApp.Seguinte(); 
+                else
+                    observableApp.TerminarPesquisa();
+            }
+        });
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        System.out.println("Passei aqui");
-        
-        if (observableApp.getState() instanceof PesquisaSala) {
+        if (observableApp.getState() instanceof PesquisaItinerario) {
             try {
                 BufferedImage Icon = ImageIO.read(Resources.getResourceFile(observableApp.getAppData().getPlantaAtual().getPathImagem()));
-                System.out.println(observableApp.getAppData().getPlantaAtual().getPathImagem());
-                System.out.println(observableApp.getAppData().getPlantaAtual().getNome());
                 imgLabel.setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
                 imgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 imgLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
 
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -117,6 +142,12 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         repaint();
+        if(observableApp.getAppData().getPercursoAtual() > 0)
+            anteriorB.setEnabled(true);
+        if(observableApp.getAppData().getPercursoAtual() == observableApp.getAppData().getNumPercursos() - 1)
+            seguinteTerminarB.setText("Terminar Pesquisa");
+        if(observableApp.getAppData().getPercursoAtual() < observableApp.getAppData().getNumPercursos() - 1)
+            seguinteTerminarB.setText("Seguinte");
         setVisible(observableApp.getState() instanceof PesquisaItinerario);
     }
     
