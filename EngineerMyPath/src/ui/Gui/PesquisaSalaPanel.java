@@ -63,9 +63,9 @@ class PesquisaSalaPanel extends JPanel implements Observer {
         
         terminarPesquisaB.setAlignmentX(Component.CENTER_ALIGNMENT);
         terminarPesquisaB.setAlignmentY(Component.CENTER_ALIGNMENT);
-        terminarPesquisaB.setMaximumSize(new Dimension(120, 30));
-        terminarPesquisaB.setMinimumSize(new Dimension(120, 30));
-        terminarPesquisaB.setSize(new Dimension(120, 30));  
+        terminarPesquisaB.setMaximumSize(new Dimension(100, 30));
+        terminarPesquisaB.setMinimumSize(new Dimension(100, 30));
+        terminarPesquisaB.setSize(new Dimension(100, 30));  
         terminarPesquisaB.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,12));
         add(terminarPesquisaB);
         

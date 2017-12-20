@@ -2,7 +2,7 @@
  *
  * João Gonçalves, João Ferreira
  *
- * 18/12/17
+ * 20/12/17
  */
 package model.Data;
 
@@ -26,11 +26,15 @@ public class AppData {
         leFicheiro("Gerais.txt");
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
+
         //System.out.println(pesquisaPerc("DEIS","GERAIS"));
         //System.out.println(pesquisaPerc("L2.1,DEIS","G1 117,GERAIS"));
         //System.out.println(pesquisaPerc("L2.1,DEIS","BIBLIOTECA,DEIS"));
         //System.out.println(pesquisaPerc("L2.1,DEIS","GERAIS"));
         System.out.println(pesquisaPerc("GERAIS","L2.1,DEIS"));
+
+        percursoAtual = 0;
+
     }
 
     public Planta getPlantaGeral() {
@@ -128,7 +132,6 @@ public class AppData {
             str = sc.nextLine();
             ed.setNPisos(Integer.parseInt(str));
             Piso p;
-            //Não está acabada, falta pôr as imagens
             while (sc.hasNextLine()) {
                 str = sc.nextLine();
                 if (!ed.hasChild(str)) {
@@ -365,7 +368,10 @@ public class AppData {
         if (p == null) {
             return false;
         }
-        plantasPerc.add(p);
+        plantasPerc.add(p.getParent());
+        int x = p.getPontoAcessoByIndex(0).getX();
+        int y = p.getPontoAcessoByIndex(0).getY();
+        listaPerc.add(p.getParent().getMapa().findPath(x, y, x, y));
         percursoAtual=0;
         return true;
     }
@@ -384,8 +390,8 @@ public class AppData {
             for(String strP : ed.getAllChild()){
                 Piso p = (Piso) ed.getChild(strP);
                 for(String strS : p.getAllChild()){
-                    if(str.equals(p.getChild(strS)))
-                        results.add(strS + "," + strE );
+                    if(str.equals(strS))
+                        results.add(strS + "-" + strE );
                 }
             }
         }
@@ -395,7 +401,7 @@ public class AppData {
     //Percebe se o utilizador pesquisou o nome de uma sala, edificio ou sala e edificio
     //Retorna a sala ou edificio encontrado
     private Planta pesquisa(String loc){
-        String[] strArr = loc.split(",");
+        String[] strArr = loc.split("-");
         if (strArr.length==2){
             return pesquisaSala(strArr);
         } else if (strArr.length==1){
@@ -404,7 +410,7 @@ public class AppData {
             else{
                 for(String s : findSala(strArr[0])){
                     //Ainda não esta acabado
-                    strArr = s.split(",");
+                    strArr = s.split("-");
                     return pesquisaSala(strArr);
                 }
             }
@@ -427,9 +433,6 @@ public class AppData {
         //Obtem uma lista dos Pontos de Acesso por onde o percurso passa
         if (!getPontosAcesso(PontosAcesso, pa1, pa2)) {
             return false;
-        }
-        for(int i=0; i<PontosAcesso.size();i++){
-            System.out.println("Ponto de Acesso nº" + i + " -> " + PontosAcesso.get(i).toString());
         }
         if(PontosAcesso.size()%2!=0)
             return false;
