@@ -44,6 +44,7 @@ public class AppPanel extends JPanel implements Observer {
     
     private void setupLayout(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        //this.setSize(dmnsn);
         
         add(Box.createVerticalGlue());
         add(menuInicialPanel);
