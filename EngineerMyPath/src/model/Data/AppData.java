@@ -26,7 +26,15 @@ public class AppData {
         leFicheiro("Gerais.txt");
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
+
+        //System.out.println(pesquisaPerc("DEIS","GERAIS"));
+        //System.out.println(pesquisaPerc("L2.1,DEIS","G1 117,GERAIS"));
+        //System.out.println(pesquisaPerc("L2.1,DEIS","BIBLIOTECA,DEIS"));
+        //System.out.println(pesquisaPerc("L2.1,DEIS","GERAIS"));
+        System.out.println(pesquisaPerc("GERAIS","L2.1,DEIS"));
+
         percursoAtual = 0;
+
     }
 
     public Planta getPlantaGeral() {
@@ -449,6 +457,10 @@ public class AppData {
     
     public Planta getPlantaAtual(){
         return plantasPerc.get(percursoAtual);
+    }
+    
+    public List<CelulaMapa> getPercurso() {
+        return listaPerc.get(percursoAtual);
     }
     
     public void setProximoPercurso(){
