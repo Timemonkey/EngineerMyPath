@@ -108,6 +108,14 @@ public class Grelha {
 
     }
     
+    public int getXSize(){
+        return mapa[0].length;
+    }
+    
+    public int getYSize(){
+        return mapa.length;
+    }
+    
        public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
         return PathFinding.doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
                 xFinal, yFinal));

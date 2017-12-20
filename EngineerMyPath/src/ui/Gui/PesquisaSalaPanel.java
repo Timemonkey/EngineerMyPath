@@ -43,7 +43,8 @@ class PesquisaSalaPanel extends JPanel implements Observer {
         this.observableApp.addObserver(this);
         
         terminarPesquisaB = new JButton("Terminar Pesquisa");
-        imgLabel = new JLabel();
+        //imgLabel = new JLabel();
+        imgLabel = new MapaLabel(observableApp);
         setupLayout();
         setupListeners();
 
@@ -53,7 +54,6 @@ class PesquisaSalaPanel extends JPanel implements Observer {
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(Color.GRAY);
-        //this.setSize(dmnsn);
 
         add(Box.createHorizontalGlue());
         add(Box.createHorizontalStrut(10));
@@ -89,16 +89,14 @@ class PesquisaSalaPanel extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        System.out.println("Passei aqui");
         
         if (observableApp.getState() instanceof PesquisaSala) {
             try {
                 BufferedImage Icon = ImageIO.read(Resources.getResourceFile(observableApp.getAppData().getPlantaAtual().getPathImagem()));
-                System.out.println(observableApp.getAppData().getPlantaAtual().getPathImagem());
-                System.out.println(observableApp.getAppData().getPlantaAtual().getNome());
                 imgLabel.setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
                 imgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 imgLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
 
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -110,7 +108,6 @@ class PesquisaSalaPanel extends JPanel implements Observer {
     public void update(Observable o, Object o1) {
         repaint();
         setVisible(observableApp.getState() instanceof PesquisaSala);
-
     }
 
 }
