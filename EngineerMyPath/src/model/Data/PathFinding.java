@@ -29,6 +29,7 @@ public class PathFinding {
         gScore.put(locOrigem, 0.0);
         fScore.put(locOrigem, locOrigem.getHeuristica(locDestino));
         open.offer(locOrigem);
+        //System.out.println("GOAL -> " + locDestino.getX() + "," + locDestino.getY());
         while (!open.isEmpty()) {
             CelulaMapa atual = open.poll();
             if (atual.equals(locDestino)) {
@@ -43,7 +44,7 @@ public class PathFinding {
             for (CelulaMapa vizinho : atual.getVizinhos()) {
                 if (closed.contains(vizinho))
                     continue;
-                
+                //System.out.println("Vizinho de " + atual.getX() + "," + atual.getY() + " -> " + vizinho.getX() + "," + vizinho.getY());    
                 
                 double tentG = gScore.get(atual)
                         + atual.getTraversalCost(vizinho);

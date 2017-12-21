@@ -100,13 +100,13 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
             }
         });
         
-        seguinteTerminarB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                if(observableApp.getAppData().getPercursoAtual() < observableApp.getAppData().getNumPercursos() - 1)
-                    observableApp.Seguinte();                
-            }
-        });
+//        seguinteTerminarB.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent ev) {
+//                if(observableApp.getAppData().getPercursoAtual() < observableApp.getAppData().getNumPercursos() - 1)
+//                    observableApp.Seguinte();                
+//            }
+//        });
         
         seguinteTerminarB.addActionListener(new ActionListener() {
             @Override
