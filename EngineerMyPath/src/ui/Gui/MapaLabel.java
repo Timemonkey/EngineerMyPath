@@ -46,25 +46,27 @@ public class MapaLabel extends JLabel implements Observer {
                 setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
-                
+
                 String str;
-                
+
                 try {
                     str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
-                } catch(NullPointerException e){
+                } catch (NullPointerException e) {
                     str = "Campus";
                 }
-                
+
                 int x = 0;
                 int y = 0;
 
                 if (str.compareToIgnoreCase("Deis") == 0) {
                     x = observableApp.getAppData().getPercurso().get(0).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
                     y = observableApp.getAppData().getPercurso().get(0).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
-                } else if(str.compareToIgnoreCase("Gerais") == 0) {
+                } else if (str.compareToIgnoreCase("Gerais") == 0) {
                     x = observableApp.getAppData().getPercurso().get(0).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 20;
                     y = observableApp.getAppData().getPercurso().get(0).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 5;
-                    System.out.println(x + ";" + y);
+                } else {
+                    x = observableApp.getAppData().getPercurso().get(0).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
+                    y = observableApp.getAppData().getPercurso().get(0).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
                 }
 
                 g.setColor(Color.BLACK);
@@ -81,18 +83,23 @@ public class MapaLabel extends JLabel implements Observer {
                 setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
-
-                String str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
                 
-                try {
+                String str;
+                if (!observableApp.getAppData().getPlantaAtual().getNome().equals("CAMPUS"))
                     str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
-                } catch(NullPointerException e){
-                    str = "Campus";
-                }
-                
+                else
+                    str = observableApp.getAppData().getPlantaAtual().getNome();
+                    
+
+//                try {
+//                    str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
+//                } catch (NullPointerException e) {
+//                    str = "Campus";
+//                }
+
                 int x = 0;
                 int y = 0;
-                
+
                 for (int i = 0; i < observableApp.getAppData().getPercurso().size(); i++) {
                     if (str.compareToIgnoreCase("Deis") == 0) {
                         x = observableApp.getAppData().getPercurso().get(i).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
@@ -100,9 +107,12 @@ public class MapaLabel extends JLabel implements Observer {
                     } else if (str.compareToIgnoreCase("Gerais") == 0) {
                         x = observableApp.getAppData().getPercurso().get(i).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 20;
                         y = observableApp.getAppData().getPercurso().get(i).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 5;
+                    } else {
+                        x = observableApp.getAppData().getPercurso().get(i).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
+                        y = observableApp.getAppData().getPercurso().get(i).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
                     }
                     g.setColor(Color.BLACK);
-                    g.fillOval(x, y, 15, 15);
+                    g.fillOval(x, y, 5, 5);
                 }
 
             } catch (IOException e) {
@@ -114,10 +124,12 @@ public class MapaLabel extends JLabel implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         repaint();
-        if(observableApp.getState() instanceof PesquisaSala)
+        if (observableApp.getState() instanceof PesquisaSala) {
             setVisible(true);
-        if(observableApp.getState() instanceof PesquisaItinerario)
+        }
+        if (observableApp.getState() instanceof PesquisaItinerario) {
             setVisible(true);
+        }
     }
 
 }
