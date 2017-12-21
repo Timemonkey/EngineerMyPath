@@ -46,8 +46,15 @@ public class MapaLabel extends JLabel implements Observer {
                 setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
-
-                String str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
+                
+                String str;
+                
+                try {
+                    str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
+                } catch(NullPointerException e){
+                    str = "Campus";
+                }
+                
                 int x = 0;
                 int y = 0;
 
@@ -76,6 +83,13 @@ public class MapaLabel extends JLabel implements Observer {
                 setAlignmentY(Component.CENTER_ALIGNMENT);
 
                 String str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
+                
+                try {
+                    str = observableApp.getAppData().getPlantaAtual().getParent().getNome();
+                } catch(NullPointerException e){
+                    str = "Campus";
+                }
+                
                 int x = 0;
                 int y = 0;
                 

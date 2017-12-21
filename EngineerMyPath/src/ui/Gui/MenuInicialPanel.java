@@ -159,14 +159,18 @@ class MenuInicialPanel extends JPanel implements Observer {
                 
                 if(strOrigem.compareToIgnoreCase("Localização de Origem") != 0){
                     if(observableApp.existeLoc(strOrigem) && observableApp.existeLoc(strDestino)){
+                        observableApp.getAppData().reset();
                         observableApp.PesquisaItinerario(strOrigem, strDestino);
                     } else{
+                        observableApp.getAppData().reset();
                         JOptionPane.showMessageDialog(null, "As localizações introduzidas não se encontram no sistema!\nFormato: L1.4-DEIS");
                     }
                 } else {
                     if(observableApp.existeLoc(strDestino)){
+                        observableApp.getAppData().reset();
                         observableApp.PesquisaSala(strDestino);
                     } else{
+                        observableApp.getAppData().reset();
                         JOptionPane.showMessageDialog(null, "As localização introduzida não se encontra no sistema!\nFormato: L1.4-DEIS");
                     }
                 }
