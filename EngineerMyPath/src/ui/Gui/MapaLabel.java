@@ -43,7 +43,7 @@ public class MapaLabel extends JLabel implements Observer {
         if (observableApp.getState() instanceof PesquisaSala) {
             try {
                 BufferedImage Icon = ImageIO.read(Resources.getResourceFile(observableApp.getAppData().getPlantaAtual().getPathImagem()));
-                setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
+                setIcon(new ImageIcon(Icon.getScaledInstance(1000, 563, Image.SCALE_SMOOTH)));
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
 
@@ -60,13 +60,13 @@ public class MapaLabel extends JLabel implements Observer {
 
                 if (str.compareToIgnoreCase("Deis") == 0) {
                     x = observableApp.getAppData().getPercurso().get(0).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
-                    y = observableApp.getAppData().getPercurso().get(0).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
+                    y = observableApp.getAppData().getPercurso().get(0).getY() * (563 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
                 } else if (str.compareToIgnoreCase("Gerais") == 0) {
                     x = observableApp.getAppData().getPercurso().get(0).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 20;
-                    y = observableApp.getAppData().getPercurso().get(0).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 5;
+                    y = observableApp.getAppData().getPercurso().get(0).getY() * (563 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 5;
                 } else {
                     x = observableApp.getAppData().getPercurso().get(0).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
-                    y = observableApp.getAppData().getPercurso().get(0).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
+                    y = observableApp.getAppData().getPercurso().get(0).getY() * (563 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
                 }
 
                 g.setColor(Color.BLACK);
@@ -80,7 +80,7 @@ public class MapaLabel extends JLabel implements Observer {
         if (observableApp.getState() instanceof PesquisaItinerario) {
             try {
                 BufferedImage Icon = ImageIO.read(Resources.getResourceFile(observableApp.getAppData().getPlantaAtual().getPathImagem()));
-                setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
+                setIcon(new ImageIcon(Icon.getScaledInstance(1000, 563, Image.SCALE_SMOOTH)));
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
                 
@@ -103,13 +103,13 @@ public class MapaLabel extends JLabel implements Observer {
                 for (int i = 0; i < observableApp.getAppData().getPercurso().size(); i++) {
                     if (str.compareToIgnoreCase("Deis") == 0) {
                         x = observableApp.getAppData().getPercurso().get(i).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
-                        y = observableApp.getAppData().getPercurso().get(i).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
+                        y = observableApp.getAppData().getPercurso().get(i).getY() * (563 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
                     } else if (str.compareToIgnoreCase("Gerais") == 0) {
                         x = observableApp.getAppData().getPercurso().get(i).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 20;
-                        y = observableApp.getAppData().getPercurso().get(i).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 5;
+                        y = observableApp.getAppData().getPercurso().get(i).getY() * (563 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 5;
                     } else {
                         x = observableApp.getAppData().getPercurso().get(i).getX() * (1000 / observableApp.getAppData().getPlantaAtual().getMapa().getXSize()) + 25;
-                        y = observableApp.getAppData().getPercurso().get(i).getY() * (500 / observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
+                        y = observableApp.getAppData().getPercurso().get(i).getY() * (563/ observableApp.getAppData().getPlantaAtual().getMapa().getYSize()) + 13;
                     }
                     g.setColor(Color.BLACK);
                     g.fillOval(x, y, 5, 5);
