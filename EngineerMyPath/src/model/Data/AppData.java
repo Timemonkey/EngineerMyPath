@@ -27,12 +27,6 @@ public class AppData {
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
 
-        //System.out.println(pesquisaPerc("DEIS","GERAIS"));
-        //System.out.println(pesquisaPerc("L2.1,DEIS","G1 117,GERAIS"));
-        //System.out.println(pesquisaPerc("L2.1,DEIS","BIBLIOTECA,DEIS"));
-        //System.out.println(pesquisaPerc("L2.1,DEIS","GERAIS"));
-        System.out.println(pesquisaPerc("GERAIS","L2.1,DEIS"));
-
         percursoAtual = 0;
 
     }
@@ -90,6 +84,8 @@ public class AppData {
                 sc2 = new Scanner(str);
                 for (int j = 0; j < columns; j++) {
                     mapa[i][j] = Integer.parseInt("" + str.charAt(j));
+                    if(mapa[i][j] == 0)
+                        mapa[i][j] = -1;
                 }
             }
 
@@ -172,6 +168,8 @@ public class AppData {
                     sc2 = new Scanner(str);
                     for (int j = 0; j < columns; j++) {
                         mapa[i][j] = Integer.parseInt("" + str.charAt(j));
+                        if(mapa[i][j] == 0)
+                            mapa[i][j] = -1;
                     }
                 }
                 p.setMapa(new Grelha(mapa));
@@ -459,11 +457,29 @@ public class AppData {
         return plantasPerc.get(percursoAtual);
     }
     
+    public List<CelulaMapa> getPercurso() {
+        return listaPerc.get(percursoAtual);
+    }
+    
     public void setProximoPercurso(){
         this.percursoAtual++;
     }
     
     public void setPercursoAnterior(){
         this.percursoAtual--;
+    }
+    
+    public void reset(){
+        listaPerc.clear();
+        percursoAtual = 0;
+        plantasPerc.clear();
+    }
+
+    public int getPercursoAtual() {
+        return percursoAtual;
+    }
+    
+    public int getNumPercursos() {
+        return listaPerc.size();
     }
 }
