@@ -64,5 +64,7 @@ public class ObservableApp extends Observable {
         notifyObservers();
     }
      
-    
+    public boolean existeLoc(String loc){
+        return getAppData().pesquisaMapa(loc);
+    }
 }

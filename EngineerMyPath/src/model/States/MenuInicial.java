@@ -20,13 +20,13 @@ public class MenuInicial extends StateAdapter {
     
     @Override
     public IStates PesquisaSala(String sala) {
-        //Funcao que faz o pesquisa de localizacao
+            this.getAppData().pesquisaMapa(sala);
         return new PesquisaSala(getAppData());
     }
 
     @Override
     public IStates PesquisaItinerario(String sala1, String sala2) {
-        //Falta que faz pesquisa de itinerario
+            this.getAppData().pesquisaPerc(sala1,sala2);
         return new PesquisaItinerario(getAppData());
     }
 }
