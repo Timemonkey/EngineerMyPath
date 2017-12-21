@@ -26,7 +26,6 @@ public class AppData {
         leFicheiro("Gerais.txt");
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
-
         percursoAtual = 0;
 
     }
@@ -88,6 +87,7 @@ public class AppData {
                         mapa[i][j] = -1;
                 }
             }
+            
 
             plantaGeral.setMapa(new Grelha(mapa));
             sc.close();
@@ -115,8 +115,6 @@ public class AppData {
                 Scanner colReader = new Scanner(str);
                 columns = colReader.next().length();
             }
-
-            mapa = new double[rows][columns];
 
             sc.close();
 
@@ -161,6 +159,8 @@ public class AppData {
                     p.addChild(strArr[0], new Sala(p, strArr[0], px, py));
                 }
                 
+                mapa = new double[rows][columns];
+                
                 Scanner sc2;
                 //para ler o mapa
                 for (int i = 0; i < rows; i++) {
@@ -172,9 +172,11 @@ public class AppData {
                             mapa[i][j] = -1;
                     }
                 }
-                p.setMapa(new Grelha(mapa));
+                Grelha g = new Grelha(mapa);
+                p.setMapa(g);
+                
             }
-
+            
             sc.close();
         } catch (Exception e) {
             System.out.println("Não foi possível localizar o ficheiro");
@@ -238,19 +240,6 @@ public class AppData {
         return null;
     }
     
-    private PontoDeAcesso getSaidaEdificio(Edificio ed) {
-        Piso p;
-        PontoDeAcesso pa2;
-        for (int i = 0; i < ed.getNPisos(); i++) {
-            p = (Piso) ed.getChild("PISO " + i);
-            pa2 = p.getPontoAcessoByDestino(plantaGeral.getNome());
-            if (pa2 != null) {
-                return pa2;
-            }
-        }
-        return null;
-    }
-
     //Procura e adiciona à ArrayList de PA's os vários Pontos de Acesso entre os pisos
     private boolean getPontosAcessoInsideEdificio(List<PontoDeAcesso> PA, PontoDeAcesso pa1, PontoDeAcesso pa2) {
         Piso p1 = (Piso) pa1.getPlanta();
@@ -427,11 +416,12 @@ public class AppData {
         //Obtem o inicio e fim do percurso
         pa1 = origem.getPontoAcessoByIndex(0);
         pa2 = destino.getPontoAcessoByIndex(0);
-
+       
         //Obtem uma lista dos Pontos de Acesso por onde o percurso passa
         if (!getPontosAcesso(PontosAcesso, pa1, pa2)) {
             return false;
         }
+  
         if(PontosAcesso.size()%2!=0)
             return false;
         //A cada iteração retira 2 Pontos de Acesso da lista e calcula o percurso. Atualiza variáveis   
@@ -441,6 +431,7 @@ public class AppData {
             listaPerc.add(pa1.getPlanta().getMapa().findPath(pa1.getX(), pa1.getY(), pa2.getX(), pa2.getY()));
             plantasPerc.add(pa1.getPlanta());
         }
+
         percursoAtual = 0;
         return true;
     }
@@ -462,10 +453,14 @@ public class AppData {
     }
     
     public void setProximoPercurso(){
+        if (percursoAtual==listaPerc.size()-1)
+            return;
         this.percursoAtual++;
     }
     
     public void setPercursoAnterior(){
+        if(percursoAtual==0)
+            return;
         this.percursoAtual--;
     }
     
