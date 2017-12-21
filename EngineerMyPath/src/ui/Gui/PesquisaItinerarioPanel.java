@@ -138,12 +138,13 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
     }
     
     
-    
     @Override
     public void update(Observable o, Object o1) {
         repaint();
         if(observableApp.getAppData().getPercursoAtual() > 0)
             anteriorB.setEnabled(true);
+        if(observableApp.getAppData().getPercursoAtual() == 0)
+            anteriorB.setEnabled(false);
         if(observableApp.getAppData().getPercursoAtual() == observableApp.getAppData().getNumPercursos() - 1)
             seguinteTerminarB.setText("Terminar Pesquisa");
         if(observableApp.getAppData().getPercursoAtual() < observableApp.getAppData().getNumPercursos() - 1)
