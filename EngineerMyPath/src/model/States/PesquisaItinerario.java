@@ -16,18 +16,19 @@ public class PesquisaItinerario extends StateAdapter {
     
     @Override
     public IStates Anterior() {
-        //Falta Implementar
+        this.getAppData().setPercursoAnterior();
         return this;
     }
 
     @Override
     public IStates Seguinte() {
-        //Falta Implementar
+        this.getAppData().setProximoPercurso();
         return this;
     }
 
     @Override
     public IStates TerminarPesquisa() {
+        this.getAppData().reset();
         return new MenuInicial(getAppData());
     }
 }
