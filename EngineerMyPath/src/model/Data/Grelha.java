@@ -17,6 +17,19 @@ public class Grelha {
     public Grelha(double[][] mapa) {
         this.mapa = mapa;
     }
+    
+    public void print(){
+        System.out.println("");
+        for(int i=0; i<getYSize(); i++){
+            for(int j=0; j<getXSize(); j++){
+                if(mapa[i][j]==-1)
+                    System.out.print(0);
+                else
+                    System.out.print(1);
+            }
+            System.out.print("\n");
+        }
+    }
 
     public class CelulaMapa implements Nodo {
 
@@ -34,7 +47,8 @@ public class Grelha {
 
         @Override
         public double getTraversalCost(CelulaMapa localizacaoVizinhanca) {
-            return 1 + mapa[localizacaoVizinhanca.y][localizacaoVizinhanca.x];
+            double cost = mapa[localizacaoVizinhanca.y][localizacaoVizinhanca.x];
+            return 1 + cost;
         }
 
         @Override
@@ -50,7 +64,8 @@ public class Grelha {
 
                     if (mapa[j][i] < 0)
                         continue;
-
+                    
+                    
                     // TODO: create cache instead of recreation
                     vizinhos.add(new CelulaMapa(i, j));
                 }
@@ -116,8 +131,9 @@ public class Grelha {
         return mapa.length;
     }
     
-       public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
-        return PathFinding.doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
+    public List<CelulaMapa> findPath(int xInicial, int yInicial, int xFinal, int yFinal) {
+        List<CelulaMapa> l = PathFinding.doAStar(new CelulaMapa(xInicial, yInicial), new CelulaMapa(
                 xFinal, yFinal));
+        return l;
     }
 }
