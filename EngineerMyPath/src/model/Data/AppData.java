@@ -27,7 +27,6 @@ public class AppData {
         listaPerc = new ArrayList<List<CelulaMapa>>();
         plantasPerc = new ArrayList<Planta>();
         percursoAtual = 0;
-
     }
 
     public Planta getPlantaGeral() {
@@ -427,11 +426,10 @@ public class AppData {
         //A cada iteração retira 2 Pontos de Acesso da lista e calcula o percurso. Atualiza variáveis   
         for (int i = 0; i < PontosAcesso.size(); i += 2) {
             pa1 = PontosAcesso.get(i);
-            pa2 = PontosAcesso.get(i + 1);
+            pa2 = PontosAcesso.get(i + 1); 
             listaPerc.add(pa1.getPlanta().getMapa().findPath(pa1.getX(), pa1.getY(), pa2.getX(), pa2.getY()));
             plantasPerc.add(pa1.getPlanta());
         }
-
         percursoAtual = 0;
         return true;
     }
