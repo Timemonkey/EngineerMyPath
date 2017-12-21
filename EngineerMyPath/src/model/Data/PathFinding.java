@@ -29,7 +29,6 @@ public class PathFinding {
         gScore.put(locOrigem, 0.0);
         fScore.put(locOrigem, locOrigem.getHeuristica(locDestino));
         open.offer(locOrigem);
-
         while (!open.isEmpty()) {
             CelulaMapa atual = open.poll();
             if (atual.equals(locDestino)) {
@@ -37,16 +36,15 @@ public class PathFinding {
                     itinerario.add(0, atual);
                     atual = fromMap.get(atual);
                 }
-
                 return itinerario;
             }
 
             closed.add(atual);
-
             for (CelulaMapa vizinho : atual.getVizinhos()) {
                 if (closed.contains(vizinho))
                     continue;
-
+                
+                
                 double tentG = gScore.get(atual)
                         + atual.getTraversalCost(vizinho);
 
