@@ -126,7 +126,7 @@ class PesquisaItinerarioPanel extends JPanel implements Observer {
         if (observableApp.getState() instanceof PesquisaItinerario) {
             try {
                 BufferedImage Icon = ImageIO.read(Resources.getResourceFile(observableApp.getAppData().getPlantaAtual().getPathImagem()));
-                imgLabel.setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_FAST)));
+                imgLabel.setIcon(new ImageIcon(Icon.getScaledInstance(1000, 500, Image.SCALE_SMOOTH)));
                 imgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 imgLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
