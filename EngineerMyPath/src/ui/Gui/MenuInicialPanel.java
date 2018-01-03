@@ -12,6 +12,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -111,6 +113,25 @@ class MenuInicialPanel extends JPanel implements Observer {
     }
     
     private void setupListeners() {
+        locDestinoT.addFocusListener(new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent fe) {
+                if(locDestinoT.getText().length() < 4 || locDestinoT.getText().compareTo("Localização de Destino") == 0){
+                    locOrigemT.setText("Localização de Origem");
+                    locOrigemT.setVisible(false);
+                    validate();
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe) {
+                if(locDestinoT.getText().length() < 4 || locDestinoT.getText().compareTo("Localização de Destino") == 0){
+                    locOrigemT.setText("Localização de Origem");
+                    locOrigemT.setVisible(false);
+                    validate();
+                }
+            }
+        });
         
         locDestinoT.addKeyListener(new KeyListener(){
             @Override
@@ -126,11 +147,18 @@ class MenuInicialPanel extends JPanel implements Observer {
             }
 
             @Override
-            public void keyPressed(KeyEvent ke) {}
+            public void keyPressed(KeyEvent ke) {
+                if(locDestinoT.getText().length() < 4 || locDestinoT.getText().compareTo("Localização de Destino") == 0){
+                    locOrigemT.setText("Localização de Origem");
+                    locOrigemT.setVisible(false);
+                    validate();
+                }
+            }
 
             @Override
             public void keyReleased(KeyEvent ke) {
                 if(locDestinoT.getText().length() < 4 || locDestinoT.getText().compareTo("Localização de Destino") == 0){
+                    locOrigemT.setText("Localização de Origem");
                     locOrigemT.setVisible(false);
                     validate();
                 }
@@ -154,24 +182,45 @@ class MenuInicialPanel extends JPanel implements Observer {
         pesquisaB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
+
                 String strOrigem = locOrigemT.getText().toUpperCase();
                 String strDestino = locDestinoT.getText().toUpperCase();
+
+
                 
                 if(strOrigem.compareToIgnoreCase("Localização de Origem") != 0){
-                    if(observableApp.existeLoc(strOrigem) && observableApp.existeLoc(strDestino)){
+                    if(observableApp.existeLoc(strOrigem) && observableApp.existeLoc(strDestino) && strOrigem.compareTo(strDestino) != 0){
                         observableApp.getAppData().reset();
+                        locOrigemT.setVisible(false);
+                        locOrigemT.setText("Localização de Origem");
+                        locDestinoT.setText("Localização de Destino");
                         observableApp.PesquisaItinerario(strOrigem, strDestino);
                     } else{
                         observableApp.getAppData().reset();
-                        JOptionPane.showMessageDialog(null, "As localizações introduzidas não se encontram no sistema!\nFormato: L1.4-DEIS");
+                        if(strOrigem.compareTo(strDestino) == 0)
+                            JOptionPane.showMessageDialog(null, "As localizações introduzidas são iguais!\nSe desejar um itinerário, as localizações têm de ser difrentes.");
+                        else if(!observableApp.existeLoc(strDestino))
+                            JOptionPane.showMessageDialog(null, "A localização de destino não se encontra no sistema!\nFormato: L1.4-DEIS");
+                        else if(!observableApp.existeLoc(strOrigem))
+                            JOptionPane.showMessageDialog(null, "A localização de origem não se encontra no sistema!\nFormato: L1.4-DEIS");
+                        locOrigemT.setText("Localização de Origem");
+                        locDestinoT.setText("Localização de Destino");
                     }
                 } else {
                     if(observableApp.existeLoc(strDestino)){
                         observableApp.getAppData().reset();
+                        locOrigemT.setVisible(false);
+                        locOrigemT.setText("Localização de Origem");
+                        locDestinoT.setText("Localização de Destino");
                         observableApp.PesquisaSala(strDestino);
                     } else{
                         observableApp.getAppData().reset();
-                        JOptionPane.showMessageDialog(null, "As localização introduzida não se encontra no sistema!\nFormato: L1.4-DEIS");
+                        if(strDestino.length() < 3)
+                            JOptionPane.showMessageDialog(null, "Por favor introduza uma localização de destino válida!\nFormato: L1.4-DEIS");
+                        else if(!observableApp.existeLoc(strDestino))                        
+                            JOptionPane.showMessageDialog(null, "As localização introduzida não se encontra no sistema!\nFormato: L1.4-DEIS");
+                        locOrigemT.setText("Localização de Origem");
+                        locDestinoT.setText("Localização de Destino");
                     }
                 }
             }
